@@ -6,7 +6,7 @@
   <title>SparseHPS: Human Pose and Shape across Depth Cameras and LiDARs</title>
   <meta name="description" content="SparseHPS recovers SMPL-X pose, shape and global translation from a human point cloud of any depth camera or LiDAR with one set of weights.">
   <meta property="og:title" content="SparseHPS: A Unified Model for Human Pose and Shape across Depth Cameras and LiDARs">
-  <meta property="og:description" content="One network for depth cameras and LiDARs: SMPL-X pose, shape and global translation from a point cloud, 10 ms per frame.">
+  <meta property="og:description" content="One network for depth cameras and LiDARs: SMPL-X pose, shape and global translation from a point cloud, 10 ms per cloud.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ghostlate.github.io/SparseHPS/">
   <meta property="og:image" content="https://ghostlate.github.io/SparseHPS/static/img/og.jpg">
@@ -34,14 +34,15 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Model demo</a>
       <a class="btn" href="#bibtex">BibTeX</a>
     </div>
-    <p class="tldr">One network, one set of weights: SMPL-X pose, shape and metric global translation from the point cloud of
-      any depth camera or LiDAR, for single frames and streams alike, in 10&nbsp;ms per frame.</p>
+    <p class="tldr">One network, one set of weights: SMPL-X body pose, shape and metric global translation from the point
+      cloud of any depth camera or LiDAR, for single frames and streams alike; one cloud takes 10&nbsp;ms on an
+      RTX&nbsp;4090.</p>
     <div class="video-main">
       <video src="static/video/teaser.mp4" poster="static/img/teaser_poster.jpg" autoplay muted loop playsinline controls preload="metadata"></video>
     </div>
     <p class="caption" style="margin-top:10px">Input cloud (2&nbsp;cm voxels, as the model reads it) &rarr; SparseHPS estimate
       &rarr; Unitree G1 via kinematic retargeting. Real and synthetic test sequences; the body and the robot are rendered
-      in NVIDIA Isaac Sim.</p>
+      in NVIDIA Isaac Sim. The motion is smoothed for display (see <a href="#humanoid">the demo</a>).</p>
   </div>
 </header>
 
@@ -65,11 +66,16 @@
       a joint error of 34.7&nbsp;mm. Moreover, the current frame alone already yields the bulk of this accuracy.</p>
 
     <div class="stats">
-      <div class="stat"><div class="v">28.6&nbsp;mm</div><div class="k">SLOPER4D J-Err(L), LiDAR; &minus;22% vs. the best 32-frame method</div></div>
-      <div class="stat"><div class="v">41.8&nbsp;mm</div><div class="k">FreeMotion J-Err(L), LiDAR; &minus;11% vs. the best 32-frame method</div></div>
-      <div class="stat"><div class="v">34.7&nbsp;mm</div><div class="k">HuMMan J-Err(L), real Azure Kinect, 42 held-out subjects</div></div>
-      <div class="stat"><div class="v">10&nbsp;ms</div><div class="k">per cloud on an RTX&nbsp;4090, 50.0M parameters</div></div>
+      <div class="stat"><div class="v">28.6&nbsp;mm</div><div class="k">SLOPER4D J-Err(L), LiDAR, all points. Best published: 36.5&nbsp;mm (32 frames); ours on 256 points: 36.8&nbsp;mm</div></div>
+      <div class="stat"><div class="v">41.8&nbsp;mm</div><div class="k">FreeMotion J-Err(L), LiDAR, released test file. Best published: 47.2&nbsp;mm (32 frames); ours on 256 points: 48.2&nbsp;mm</div></div>
+      <div class="stat"><div class="v">34.7&nbsp;mm</div><div class="k">HuMMan J-Err(L), real Azure Kinect, 42 held-out subjects; no published result on this split</div></div>
+      <div class="stat"><div class="v">10&nbsp;ms</div><div class="k">one cloud on an RTX&nbsp;4090 (single-frame mode); 50.0M parameters</div></div>
     </div>
+    <p class="caption" style="margin-top:12px">As the paper states, the comparison with published methods is not fully
+      controlled: SparseHPS is trained on more sources; prior LiDAR methods read 256 points per frame, whereas SparseHPS
+      reads all points, and its 256-point result uses weights not trained for that input; the released FreeMotion test
+      file does not reproduce the published LiveHPS result (52.8 instead of 69.4&nbsp;mm); and the HuMMan splits
+      differ.</p>
   </div>
 </section>
 
@@ -81,7 +87,9 @@
       queries (shape, translation and one per joint) cross-attend to them in twelve decoder blocks; three blocks also
       attend to the queries of the seven preceding frames (a causal memory). A shared head maps every joint query to a
       rotation, voxels vote for the body position, and an SMPL-X layer gives the mesh. One set of weights serves single
-      frames and streams.</p>
+      frames and streams. The output covers the 22 body joints of SMPL-X; hands and face are not estimated.
+      <b>SparseHPS-S</b> is the single-frame model of the ablations (nine sources); <b>SparseHPS-T</b>, the model of all
+      results and clips on this page, is trained on all ten sources and adds the memory.</p>
 
     <div class="two" style="margin-top:28px">
       <div>
@@ -108,8 +116,9 @@
       <div>
         <h3>Errors per sensor</h3>
         <div class="figure"><img src="static/img/teaser_errors.png" alt="Bar chart of root-relative joint errors on SLOPER4D, FreeMotion and HuMMan for the best published methods and SparseHPS-T with 1 and 8 frames." loading="lazy"></div>
-        <p class="caption">Root-relative joint errors when the model sees only the current frame or also the seven frames
-          before it; the strongest published results come from 32-frame sequences. *Another protocol.</p>
+        <p class="caption">Root-relative joint errors (LiveHPS protocol). LiveHPS, LiveHPS++ and Sparkle read 32 frames of
+          256 points; hatched: SparseHPS-T on 256 points per frame, without retraining. The seven earlier frames lower
+          the error by 0.3, 1.1 and 0.0&nbsp;mm. HuMMan: prior work uses another split (Table&nbsp;3).</p>
       </div>
     </div>
   </div>
@@ -119,6 +128,8 @@
   <div class="wrap">
     <h2>Comparison with prior methods</h2>
     <h3>LiDAR: SLOPER4D and FreeMotion</h3>
+    <p class="caption">Prior methods read 32 frames of 256 points; SparseHPS-T reads all points of the current frame and
+      at most seven earlier frames. Row &ldquo;256 points&rdquo;: the same weights on the prior methods' input.</p>
     <div class="figure table-fig">
       <a href="static/img/table_lidar.png" title="Open full size"><img src="static/img/table_lidar.png" width="2106" height="991" loading="lazy"
         alt="Table 2 of the paper: comparison on the SLOPER4D and FreeMotion LiDAR benchmarks under the LiveHPS protocol. SparseHPS-T has the lowest errors on both: J/V-Err(L) 28.6/35.3 mm on SLOPER4D and 41.8/51.8 mm on FreeMotion, against 41.4/50.5 and 59.0/73.2 mm for Sparkle."></a>
@@ -154,7 +165,10 @@
       SparseHPS estimate. Right: Unitree G1 driven by
       <a href="https://github.com/YanjieZe/GMR">GMR</a> retargeting. Clips were picked for variety of motion; the
       percentile tag tells where a clip's median vertex error falls within its test set (50 = typical, lower = easier).
-      For HuMMan the camera facing the person was chosen. Walking figures are kept in place in the frame.</p>
+      For HuMMan the camera facing the person was chosen. Walking figures are kept in place in the frame. For display,
+      both figures are smoothed offline (Gaussian, &sigma;&nbsp;=&nbsp;0.1&nbsp;s) and shifted vertically so that the
+      lower foot rests on the floor; the network output itself is causal and not smoothed. Hands are not estimated and
+      are shown in a fixed relaxed pose.</p>
   </div>
 </section>
 
@@ -173,7 +187,7 @@
 <section id="credits">
   <div class="wrap">
     <h2>Datasets and acknowledgements</h2>
-    <p class="muted">SparseHPS is trained on the ten datasets below; the demo clips show held-out sequences of the seven
+    <p class="muted">SparseHPS is trained on the ten datasets below; the demo clips show held-out sequences of the five
       marked <span class="demo-mark">demo</span>. All datasets belong to their authors and are used under their licenses
       for non-commercial research. Please cite them when you use this work.</p>
     <ol class="refs">

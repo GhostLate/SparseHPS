@@ -7,32 +7,42 @@
 [Ilya Zaychuk](https://www.linkedin.com/in/ilya-zaychuk)
 
 [![Project page](https://img.shields.io/badge/Project-Page-39d0d8?style=for-the-badge)](https://ghostlate.github.io/SparseHPS/)
-[![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b?style=for-the-badge)](https://ghostlate.github.io/SparseHPS/)
+![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b?style=for-the-badge)
 [![Model demo](https://img.shields.io/badge/Model-Demo-f2b134?style=for-the-badge)](https://ghostlate.github.io/SparseHPS/#humanoid)
 
 <a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/teaser.webp" width="100%" alt="Input point cloud, SparseHPS SMPL-X estimate and a Unitree G1 robot following the motion"></a>
 
 <sub>Input cloud (2 cm voxels, as the model reads it) → SparseHPS-T estimate → Unitree G1 via kinematic retargeting
-(GMR). Test sequences of AMASS, BEDLAM2, FreeMotion, HuMMan and RELI11D.</sub>
+(GMR). Test sequences of AMASS, BEDLAM2, FreeMotion, HuMMan and RELI11D; the motion is smoothed for display.</sub>
 
 </div>
 
-**One network, one set of weights:** SMPL-X pose, shape and metric global translation from the point cloud of any
-depth camera or LiDAR, for single frames and streams alike, in 10 ms per frame.
+> [!NOTE]
+> The code and the model weights are not public yet. This repository hosts the project page.
+
+**One network, one set of weights:** SMPL-X body pose, shape and metric global translation from the point cloud of
+any depth camera or LiDAR, for single frames and streams alike; one cloud takes 10 ms on an RTX 4090.
 
 ## Highlights
 
-| | Sensor | J-Err(L) | |
-|---|---|---:|---|
-| **SLOPER4D** | moving LiDAR | **28.6 mm** | −22% vs. the best 32-frame method |
-| **FreeMotion** | static LiDARs | **41.8 mm** | −11% vs. the best 32-frame method |
-| **HuMMan** | real Azure Kinect | **34.7 mm** | 42 held-out subjects |
-| **Speed** | | **10 ms** | per cloud on an RTX 4090, 50.0M parameters |
+J-Err(L), root-relative joint error in mm under the LiveHPS protocol:
+
+| Benchmark | Sensor | SparseHPS-T | Best published (32 frames) | SparseHPS-T on 256 points |
+|---|---|---:|---:|---:|
+| **SLOPER4D** | moving LiDAR | **28.6** | 36.5 | 36.8 |
+| **FreeMotion** | static LiDARs, released test file | **41.8** | 47.2 | 48.2 |
+| **HuMMan** | real Azure Kinect, 42 held-out subjects | **34.7** | none on this split | – |
+
+As the paper states, the comparison with published methods is not fully controlled: SparseHPS is trained on more
+sources; prior LiDAR methods read 256 points per frame, whereas SparseHPS reads all points, and its 256-point result
+uses weights not trained for that input; the released FreeMotion test file does not reproduce the published LiveHPS
+result (52.8 instead of 69.4 mm); and the HuMMan splits differ.
 
 - **Sensor-agnostic.** Point density differs by more than ten times between devices; one set of weights serves depth
   cameras and LiDARs.
-- **Single frames and streams.** A causal memory of tokens from the seven preceding frames adds temporal context; the
-  current frame alone already gives the bulk of the accuracy.
+- **Single frames and streams.** A causal memory of tokens from the seven preceding frames adds temporal context
+  (−0.3, −1.1 and 0.0 mm on SLOPER4D, FreeMotion and HuMMan); the current frame alone gives the bulk of the accuracy.
+- **Fast.** One cloud takes 10 ms on an RTX 4090 (single-frame mode); 50.0M parameters.
 - **Ten datasets, one body model.** Rendered clouds and real depth-camera and LiDAR captures, all converted to the
   neutral locked-head SMPL-X with 16 shape coefficients.
 
@@ -60,11 +70,16 @@ yields the bulk of this accuracy.
 A LitePT encoder turns the cloud (2 cm voxels) into sparse voxel features. Twenty-four learned queries (shape,
 translation and one per joint) cross-attend to them in twelve decoder blocks; three blocks also attend to the queries
 of the seven preceding frames (a causal memory). A shared head maps every joint query to a rotation, voxels vote for
-the body position, and an SMPL-X layer gives the mesh.
+the body position, and an SMPL-X layer gives the mesh. The output covers the 22 body joints of SMPL-X; hands and face
+are not estimated. **SparseHPS-S** is the single-frame model of the ablations (nine sources); **SparseHPS-T**, the
+model of all results and demos, is trained on all ten sources and adds the memory.
 
 ## Results
 
 <p align="center"><img src="static/img/teaser_errors.png" width="70%" alt="Root-relative joint errors per sensor"></p>
+
+<sub>LiveHPS, LiveHPS++ and Sparkle read 32 frames of 256 points; hatched: SparseHPS-T on 256 points per frame,
+without retraining. HuMMan: prior work uses another split, so no published bar is shown.</sub>
 
 <details>
 <summary><b>Comparison tables from the paper</b> (LiDAR benchmarks and HuMMan-Point)</summary>
@@ -78,7 +93,9 @@ the body position, and an SMPL-X layer gives the mesh.
 
 Every clip runs the same SparseHPS-T model on a test sequence and hands its SMPL-X motion to a Unitree G1 through
 kinematic retargeting ([GMR](https://github.com/YanjieZe/GMR)); the model never sees the robot. The body and the robot
-are rendered in NVIDIA Isaac Sim. The videos are on the
+are rendered in NVIDIA Isaac Sim. For display, both figures are smoothed offline (Gaussian, σ = 0.1 s) and shifted
+vertically so that the lower foot rests on the floor; the network output itself is causal and not smoothed. Hands are
+not estimated and are shown in a fixed relaxed pose. The videos are on the
 [project page](https://ghostlate.github.io/SparseHPS/#humanoid).
 
 <table>

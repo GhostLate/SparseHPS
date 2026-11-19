@@ -14,7 +14,7 @@ The page contains:
   cloud, the SparseHPS-T estimate and a Unitree G1 driven by kinematic retargeting (GMR); the body and the robot are
   rendered in NVIDIA Isaac Sim. A tag on each clip gives the percentile of its error within its test set.
 
-The paper and the code will be linked from the page once they are public.
+The paper will be linked from the page once it is public.
 
 ## Credits
 

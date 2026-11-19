@@ -40,7 +40,8 @@
       <video src="static/video/teaser.mp4" poster="static/img/teaser_poster.jpg" autoplay muted loop playsinline controls preload="metadata"></video>
     </div>
     <p class="caption" style="margin-top:10px">Input cloud (2&nbsp;cm voxels, as the model reads it) &rarr; SparseHPS estimate
-      &rarr; Unitree G1 via kinematic retargeting. Real and synthetic test sequences, rendered in NVIDIA Isaac Sim.</p>
+      &rarr; Unitree G1 via kinematic retargeting. Real and synthetic test sequences; the body and the robot are rendered
+      in NVIDIA Isaac Sim.</p>
   </div>
 </header>
 
@@ -140,8 +141,8 @@
       model never sees the robot; the retargeting is kinematic, without physics.</p>
     <div class="pipeline">
       <span>point cloud</span><i>&rarr;</i><span>SparseHPS-T (causal, 7 earlier frames)</span><i>&rarr;</i>
-      <span>0.1&nbsp;s offline smoothing</span><i>&rarr;</i><span>GMR retargeting to Unitree G1</span><i>&rarr;</i>
-      <span>foot contact clean-up</span><i>&rarr;</i><span>Isaac Sim render</span>
+      <span>GMR retargeting to Unitree G1</span><i>&rarr;</i><span>0.1&nbsp;s offline smoothing</span><i>&rarr;</i>
+      <span>feet on the floor</span><i>&rarr;</i><span>Isaac Sim render</span>
     </div>
     <div class="filters" role="group" aria-label="Filter clips by sensor">
       <button class="chip" aria-pressed="true" data-f="all">All</button>
@@ -150,12 +151,13 @@
       <button class="chip" aria-pressed="false" data-f="synthetic">Synthetic</button>
     </div>
     <div class="gallery" id="gallery"></div>
-    <p class="caption" style="margin-top:14px">Left: the input cloud (2&nbsp;cm voxels, colored by height). Middle: the
+    <p class="caption" style="margin-top:14px">Left: the input cloud (2&nbsp;cm voxels, shaded by depth). Middle: the
       SparseHPS estimate. Right: Unitree G1 driven by
       <a href="https://github.com/YanjieZe/GMR">GMR</a> retargeting. Clips were picked for variety of motion; the
       percentile tag tells where a clip's median vertex error falls within its test set (50 = typical, lower = easier).
-      For HuMMan the camera facing the person was chosen. The person's height above the floor and the robot's stance
-      foot are adjusted so that feet neither float nor slide.</p>
+      For HuMMan the camera facing the person was chosen. The body and the robot are smoothed with the same 0.1&nbsp;s
+      filter, and the height of each is fitted so that its lower foot stays on the floor; walking figures are kept in
+      place in the frame.</p>
   </div>
 </section>
 

@@ -41,8 +41,8 @@
       <video src="static/video/teaser.mp4" poster="static/img/teaser_poster.jpg" autoplay muted loop playsinline controls preload="metadata"></video>
     </div>
     <p class="caption" style="margin-top:10px">Input cloud (2&nbsp;cm voxels, as the model reads it) &rarr; SparseHPS estimate
-      &rarr; Unitree G1 via kinematic retargeting. Real and synthetic test sequences; the body and the robot are rendered
-      in NVIDIA Isaac Sim.</p>
+      &rarr; Unitree G1 in physics simulation (SOMA Retargeter + SONIC tracking policy, MuJoCo). Real and synthetic test
+      sequences; the body and the robot are rendered in NVIDIA Isaac Sim.</p>
   </div>
 </header>
 
@@ -171,10 +171,13 @@
   <div class="wrap">
     <h2>From a point cloud to a humanoid</h2>
     <p>Every clip runs the same SparseHPS-T model on a test sequence and hands its SMPL-X motion to a humanoid. The
-      model never sees the robot; the retargeting is kinematic, without physics.</p>
+      model never sees the robot. NVIDIA's SOMA Retargeter maps the motion to a Unitree G1, and the robot is simulated
+      in MuJoCo under NVIDIA's pretrained SONIC tracking policy: it has to keep its balance, and its feet rest on the
+      floor through contact.</p>
     <div class="pipeline">
       <span>point cloud</span><i>&rarr;</i><span>SparseHPS-T (causal, 7 earlier frames)</span><i>&rarr;</i>
-      <span>GMR retargeting to Unitree G1</span><i>&rarr;</i><span>Isaac Sim render</span>
+      <span>SOMA retargeting to Unitree G1</span><i>&rarr;</i><span>SONIC policy, MuJoCo physics</span><i>&rarr;</i>
+      <span>Isaac Sim render</span>
     </div>
     <div class="filters" role="group" aria-label="Filter clips by sensor">
       <button class="chip" aria-pressed="true" data-f="all">All</button>
@@ -184,12 +187,13 @@
     </div>
     <div class="gallery" id="gallery"></div>
     <p class="caption" style="margin-top:14px">Left: the input cloud (2&nbsp;cm voxels, shaded by depth). Middle: the
-      SparseHPS estimate. Right: Unitree G1 driven by
-      <a href="https://github.com/YanjieZe/GMR">GMR</a> retargeting. Clips were picked for variety of motion; the
+      SparseHPS estimate. Right: Unitree G1 simulated in MuJoCo, driven by the SONIC policy that tracks the
+      <a href="https://github.com/NVIDIA/soma-retargeter">SOMA Retargeter</a> output. Clips were picked for variety of motion; the
       percentile tag tells where a clip's median vertex error falls within its test set (50 = typical, lower = easier).
       For HuMMan the camera facing the person was chosen. Walking figures are kept in place in the frame. For display,
-      both figures are smoothed offline (Gaussian, &sigma;&nbsp;=&nbsp;0.1&nbsp;s) and shifted vertically so that the
-      lower foot rests on the floor; the network output itself is causal and not smoothed. Hands are not estimated and
+      the body is smoothed offline (Gaussian, &sigma;&nbsp;=&nbsp;0.1&nbsp;s) and shifted vertically so that the
+      lower foot rests on the floor, and the robot tracks this smoothed motion; the network output itself is causal and
+      not smoothed. Hands are not estimated and
       are shown in a fixed relaxed pose.</p>
   </div>
 </section>
@@ -265,10 +269,14 @@
       (<a href="https://smpl-x.is.tue.mpg.de/bodylicense.html">terms</a>).</p>
 
     <h3 style="margin-top:22px">Robot, retargeting and rendering</h3>
-    <p class="small">Retargeting: <a href="https://github.com/YanjieZe/GMR">GMR</a> (MIT) &mdash; J. P. Araujo, Y. Ze,
-      P. Xu, J. Wu, C. K. Liu. Retargeting Matters: General Motion Retargeting for Humanoid Motion Tracking.
-      <a href="https://arxiv.org/abs/2510.02252">arXiv:2510.02252</a>, 2025; Y. Ze et al. TWIST: Teleoperated
-      Whole-Body Imitation System. <a href="https://arxiv.org/abs/2505.02833">arXiv:2505.02833</a>, 2025.
+    <p class="small">Retargeting: <a href="https://github.com/NVIDIA/soma-retargeter">SOMA Retargeter</a> and
+      <a href="https://github.com/NVlabs/SOMA-X">SOMA-X</a> (Apache 2.0) &mdash; J. Saito et al. SOMA: Unifying
+      Parametric Human Body Models. <a href="https://arxiv.org/abs/2603.16858">arXiv:2603.16858</a>, 2026.
+      Physics: the SONIC whole-body controller from
+      <a href="https://github.com/NVlabs/GR00T-WholeBodyControl">GR00T-WholeBodyControl</a> (code Apache 2.0; model
+      licensed by NVIDIA Corporation under the NVIDIA Open Model License) &mdash; Z. Luo et al. SONIC: Supersizing
+      Motion Tracking for Natural Humanoid Whole-Body Control. <a href="https://arxiv.org/abs/2511.07820">arXiv:2511.07820</a>,
+      2025; simulated in <a href="https://mujoco.org">MuJoCo</a> (Apache 2.0).
       Robot model: Unitree G1 from <a href="https://github.com/unitreerobotics/unitree_ros">unitree_ros</a>,
       &copy; Unitree Robotics, BSD-3-Clause; its use here does not imply endorsement by Unitree Robotics.
       Rendering: NVIDIA Isaac Sim.</p>

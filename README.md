@@ -12,8 +12,8 @@
 
 <a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/teaser.webp" width="100%" alt="Input point cloud, SparseHPS SMPL-X estimate and a Unitree G1 robot following the motion"></a>
 
-<sub>Input cloud (2 cm voxels, as the model reads it) → SparseHPS-T estimate → Unitree G1 via kinematic retargeting
-(GMR). Test sequences of AMASS, BEDLAM2, FreeMotion, HuMMan and RELI11D.</sub>
+<sub>Input cloud (2 cm voxels, as the model reads it) → SparseHPS-T estimate → Unitree G1 in physics simulation
+(SOMA Retargeter + SONIC policy, MuJoCo). Test sequences of AMASS, BEDLAM2, FreeMotion, HuMMan and RELI11D.</sub>
 
 </div>
 
@@ -86,10 +86,13 @@ published bar is shown.</sub>
 
 ## From a point cloud to a humanoid
 
-Every clip runs the same SparseHPS-T model on a test sequence and hands its SMPL-X motion to a Unitree G1 through
-kinematic retargeting ([GMR](https://github.com/YanjieZe/GMR)); the model never sees the robot. The body and the robot
-are rendered in NVIDIA Isaac Sim. For display, both figures are smoothed offline (Gaussian, σ = 0.1 s) and shifted
-vertically so that the lower foot rests on the floor; the network output itself is causal and not smoothed. Hands are
+Every clip runs the same SparseHPS-T model on a test sequence and hands its SMPL-X motion to a Unitree G1; the model
+never sees the robot. NVIDIA's [SOMA Retargeter](https://github.com/NVIDIA/soma-retargeter) maps the motion to the
+robot, and the robot is simulated in MuJoCo under NVIDIA's pretrained
+[SONIC](https://github.com/NVlabs/GR00T-WholeBodyControl) tracking policy, so it has to keep its balance. The body and
+the robot are rendered in NVIDIA Isaac Sim. For display, the body is smoothed offline (Gaussian, σ = 0.1 s) and shifted
+vertically so that the lower foot rests on the floor, and the robot tracks this smoothed motion; the network output
+itself is causal and not smoothed. Hands are
 not estimated and are shown in a fixed relaxed pose. The videos are on the
 [project page](https://ghostlate.github.io/SparseHPS/#humanoid).
 

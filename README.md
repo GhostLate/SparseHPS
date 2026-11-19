@@ -17,8 +17,11 @@
 
 </div>
 
+This repository is the official PyTorch implementation of the paper **SparseHPS: A Unified Model for Human Pose and
+Shape across Depth Cameras and LiDARs**.
+
 > [!NOTE]
-> The code and the model weights are not public yet. This repository hosts the project page.
+> The code and the model weights are not public yet; until then this repository hosts the project page.
 
 **One network, one set of weights:** SMPL-X body pose, shape and metric global translation from the point cloud of
 any depth camera or LiDAR, for single frames and streams alike; one cloud takes 10 ms on an RTX 4090.

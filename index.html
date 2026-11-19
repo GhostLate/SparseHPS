@@ -190,7 +190,10 @@
       SparseHPS estimate. Right: Unitree G1 simulated in MuJoCo, driven by the SONIC policy that tracks the
       <a href="https://github.com/NVIDIA/soma-retargeter">SOMA Retargeter</a> output. Clips were picked for variety of motion; the
       percentile tag tells where a clip's median vertex error falls within its test set (50 = typical, lower = easier).
-      For HuMMan the camera facing the person was chosen. Walking figures are kept in place in the frame. For display,
+      For the multi-camera sets (HuMMan, EgoBody, FORM-HOI) the camera facing the person was chosen; the SLOPER4D
+      LiDAR follows the runner from behind, so that clip is shown from the runner's front. Walking figures are kept in
+      place in the frame. Objects and furniture are neither shown nor simulated: in one EgoBody clip the person sits
+      down on a chair and the robot, which has none, sits on the floor. For display,
       the body is smoothed offline (Gaussian, &sigma;&nbsp;=&nbsp;0.1&nbsp;s) and shifted vertically so that the
       lower foot rests on the floor, and the robot tracks this smoothed motion; the network output itself is causal and
       not smoothed. Hands are not estimated and
@@ -213,7 +216,7 @@
 <section id="credits">
   <div class="wrap">
     <h2>Datasets and acknowledgements</h2>
-    <p class="muted">SparseHPS is trained on the ten datasets below; the demo clips show held-out sequences of the five
+    <p class="muted">SparseHPS is trained on the ten datasets below; the demo clips show held-out sequences of the eight
       marked <span class="demo-mark">demo</span>. All datasets belong to their authors and are used under their licenses
       for non-commercial research. Please cite them when you use this work.</p>
     <ol class="refs">
@@ -241,7 +244,7 @@
         J. Yu, Y. Ma. LiveHPS: LiDAR-based Scene-level Human Pose and Shape Estimation in Free Environment. CVPR 2024.
         <a href="https://doi.org/10.1109/cvpr52733.2024.00128">doi</a> &middot;
         <a href="https://github.com/4DVLab/LiveHPS">project</a></li>
-      <li><b>SLOPER4D</b> &mdash; Y. Dai et al. SLOPER4D: A Scene-Aware Dataset
+      <li><b>SLOPER4D</b> <span class="demo-mark">demo</span> &mdash; Y. Dai et al. SLOPER4D: A Scene-Aware Dataset
         for Global 4D Human Pose Estimation in Urban Environments. CVPR 2023.
         <a href="https://doi.org/10.1109/cvpr52729.2023.00073">doi</a> &middot;
         <a href="https://github.com/climbingdaily/SLOPER4D">project</a></li>
@@ -249,13 +252,15 @@
         Multimodal Human Motion Dataset and Method. CVPR 2024.
         <a href="https://doi.org/10.1109/cvpr52733.2024.00219">doi</a> &middot;
         <a href="https://github.com/yanmn/RELI11DandLIER">project</a></li>
-      <li><b>EgoBody</b> &mdash; S. Zhang et al. EgoBody: Human Body Shape and Motion of Interacting People from
+      <li><b>EgoBody</b> <span class="demo-mark">demo</span> &mdash; S. Zhang et al. EgoBody: Human Body Shape and Motion of Interacting People from
         Head-Mounted Devices. ECCV 2022. <a href="https://doi.org/10.1007/978-3-031-20068-7_11">doi</a></li>
       <li><b>BEHAVE</b> &mdash; B. L. Bhatnagar, X. Xie, I. A. Petrov, C. Sminchisescu, C. Theobalt, G. Pons-Moll.
         BEHAVE: Dataset and Method for Tracking Human Object Interactions. CVPR 2022.
         <a href="https://doi.org/10.1109/cvpr52688.2022.01547">doi</a></li>
-      <li><b>FORM-HOI</b> &mdash; NVIDIA. FORM-HOI: Foundry for Reconstruction from Multiview HOI. Dataset, v0.1.0,
-        2026. <a href="https://huggingface.co/datasets/nvidia/form-hoi">Hugging Face</a></li>
+      <li><b>FORM-HOI</b> <span class="demo-mark">demo</span> &mdash; NVIDIA. FORM-HOI: Foundry for Reconstruction
+        from Multiview HOI. Dataset, v0.1.0, 2026. <a href="https://huggingface.co/datasets/nvidia/form-hoi">Hugging
+        Face</a> &middot; licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; the
+        demo shows point clouds made from its depth maps</li>
     </ol>
 
     <h3 style="margin-top:26px">SMPL-X</h3>
@@ -301,6 +306,13 @@ const CLIPS = [
   ['humman_t590', 5, 'HuMMan', 'Azure Kinect', 'depth'],
   ['freemotion_t101', 61, 'FreeMotion', 'static LiDAR', 'lidar'],
   ['amass_t107', 71, 'AMASS', 'virtual Kinect', 'synthetic'],
+  ['formhoi_t5354_28', 50, 'FORM-HOI', 'stereo depth, dumbbell squats', 'depth'],
+  ['egobody_t470_82', 65, 'EgoBody', 'Azure Kinect', 'depth'],
+  ['sloper_t4_run', 27, 'SLOPER4D', 'moving LiDAR, running', 'lidar'],
+  ['formhoi_t6754_12', 25, 'FORM-HOI', 'stereo depth, basketball', 'depth'],
+  ['egobody_t769_113', 22, 'EgoBody', 'Azure Kinect', 'depth'],
+  ['formhoi_t5296_0', 68, 'FORM-HOI', 'stereo depth, box to the floor', 'depth'],
+  ['egobody_t326_97', 59, 'EgoBody', 'Azure Kinect', 'depth'],
 ];
 const gallery = document.getElementById('gallery');
 for (const [file, pct, set, sensor, kind] of CLIPS) {

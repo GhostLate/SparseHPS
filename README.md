@@ -109,6 +109,14 @@ not estimated and are shown in a fixed relaxed pose. The videos are on the
 <td><a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/posters/humman_t590.jpg" alt="HuMMan"></a><br><sub>HuMMan, Azure Kinect</sub></td>
 <td><a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/posters/freemotion_t101.jpg" alt="FreeMotion"></a><br><sub>FreeMotion, static LiDAR</sub></td>
 </tr>
+<tr>
+<td><a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/posters/formhoi_t5354_28.jpg" alt="FORM-HOI dumbbell squats"></a><br><sub>FORM-HOI, stereo depth, dumbbell squats</sub></td>
+<td><a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/posters/egobody_t470_82.jpg" alt="EgoBody"></a><br><sub>EgoBody, Azure Kinect</sub></td>
+</tr>
+<tr>
+<td><a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/posters/sloper_t4_run.jpg" alt="SLOPER4D running"></a><br><sub>SLOPER4D, moving LiDAR, running</sub></td>
+<td><a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/posters/formhoi_t6754_12.jpg" alt="FORM-HOI basketball"></a><br><sub>FORM-HOI, stereo depth, basketball</sub></td>
+</tr>
 </table>
 
 ## Citation

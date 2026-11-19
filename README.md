@@ -21,8 +21,9 @@ and SLOPER4D.</sub>
 The official PyTorch implementation of the paper **SparseHPS: A Unified Model for Human Pose and
 Shape across Depth Cameras and LiDARs**.
 
-**One network, one set of weights:** SMPL-X body pose, shape and metric global translation from the point cloud of
-any depth camera or LiDAR, for single frames and streams alike; one cloud takes 10 ms on an RTX 4090.
+**State-of-the-art and the first single model for markerless motion capture** of body pose and shape from any depth
+camera or LiDAR. One set of weights gives SMPL-X pose, shape and metric global translation for single frames and
+streams, in 10 ms per cloud on an RTX 4090.
 
 ## Highlights
 

@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SparseHPS: Human Pose and Shape across Depth Cameras and LiDARs</title>
+  <meta name="description" content="SparseHPS recovers SMPL-X pose, shape and global translation from a human point cloud of any depth camera or LiDAR with one set of weights.">
+  <meta property="og:title" content="SparseHPS: A Unified Model for Human Pose and Shape across Depth Cameras and LiDARs">
+  <meta property="og:description" content="One network for depth cameras and LiDARs: SMPL-X pose, shape and global translation from a point cloud, 17 ms per frame.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ghostlate.github.io/SparseHPS/">
+  <meta property="og:image" content="https://ghostlate.github.io/SparseHPS/static/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ghostlate.github.io/SparseHPS/static/img/og.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1><span class="name">SparseHPS</span>: A Unified Model for Human Pose and Shape across Depth Cameras and LiDARs</h1>
+    <div class="authors"><a href="https://www.linkedin.com/in/ilya-zaychuk">Ilya Zaychuk</a></div>
+    <div class="links">
+      <a class="btn disabled" href="#" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6zM14 3.5V8h4.5z"/></svg>arXiv (soon)</a>
+      <a class="btn disabled" href="#" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 0 1 1.3-3.2 4.3 4.3 0 0 1 .1-3.2s1-.3 3.3 1.2a11.3 11.3 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5a4.3 4.3 0 0 1 .1 3.2 4.7 4.7 0 0 1 1.3 3.2c0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>Code (soon)</a>
+      <a class="btn" href="#humanoid">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Humanoid demo</a>
+      <a class="btn" href="#bibtex">BibTeX</a>
+    </div>
+    <p class="tldr">One network, one set of weights: SMPL-X pose, shape and metric global translation from the point cloud of
+      any depth camera or LiDAR, for single frames and streams alike, in 17&nbsp;ms per frame.</p>
+    <div class="video-main">
+      <video src="static/video/teaser.mp4" poster="static/img/teaser_poster.jpg" autoplay muted loop playsinline controls preload="metadata"></video>
+    </div>
+    <p class="caption" style="margin-top:10px">Input cloud (2&nbsp;cm voxels, as the model reads it) &rarr; SparseHPS estimate
+      &rarr; Unitree G1 via kinematic retargeting. Real and synthetic test sequences, rendered in NVIDIA Isaac Sim.</p>
+  </div>
+</header>
+
+<main>
+<section id="abstract">
+  <div class="wrap">
+    <h2>Abstract</h2>
+    <p>Recovering 3D human pose and shape from point clouds is central to motion capture, robotics and self-driving
+      vehicles, because depth cameras and LiDARs sense a person directly in metric 3D and work under any lighting.
+      However, current approaches are each tailored to one sensor type: point density differs by more than ten times
+      between devices, public datasets are labeled with incompatible body models, and LiDAR approaches need long input
+      sequences to offset sparse scans. In this work, we present SparseHPS, a novel sensor-agnostic network that
+      recovers SMPL-X pose, shape and global translation from a human point cloud with one set of weights, for single
+      frames and streams alike. Specifically, SparseHPS encodes the cloud with a LitePT backbone over sparse voxels,
+      represents every joint by a learnable query decoded with one common head, localizes the body by voting over
+      voxels, and draws temporal context from a causal memory of tokens from the seven preceding frames. A single model
+      is trained on ten datasets that mix rendered clouds with real depth-camera and LiDAR captures, all converted to
+      one body model. Experiments demonstrate state-of-the-art results on the SLOPER4D and FreeMotion LiDAR benchmarks,
+      where SparseHPS lowers the root-relative joint error by 22% and 11%, respectively, compared with the strongest
+      prior method, which needs 32 frames. On real Azure Kinect captures of held-out HuMMan subjects, SparseHPS attains
+      a joint error of 34.7&nbsp;mm. Moreover, the current frame alone already yields the bulk of this accuracy.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="v">28.6&nbsp;mm</div><div class="k">SLOPER4D J-Err(L), LiDAR; &minus;22% vs. the best 32-frame method</div></div>
+      <div class="stat"><div class="v">41.8&nbsp;mm</div><div class="k">FreeMotion J-Err(L), LiDAR; &minus;11% vs. the best 32-frame method</div></div>
+      <div class="stat"><div class="v">34.7&nbsp;mm</div><div class="k">HuMMan J-Err(L), real Azure Kinect, 42 held-out subjects</div></div>
+      <div class="stat"><div class="v">17&nbsp;ms</div><div class="k">per cloud on an RTX&nbsp;4070&nbsp;Ti&nbsp;SUPER, 50.0M parameters</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap">
+    <h2>Method</h2>
+    <div class="figure"><img src="static/img/architecture.png" alt="SparseHPS architecture: a LitePT encoder over sparse voxels, 24 learned queries decoded by 12 decoder blocks with a token memory of 7 earlier frames, a voxel vote for the translation and an SMPL-X layer." loading="lazy"></div>
+    <p class="caption">A LitePT encoder turns the cloud (2&nbsp;cm voxels) into sparse voxel features. Twenty-four learned
+      queries (shape, translation and one per joint) cross-attend to them in twelve decoder blocks; three blocks also
+      attend to the queries of the seven preceding frames (a causal memory). A shared head maps every joint query to a
+      rotation, voxels vote for the body position, and an SMPL-X layer gives the mesh. One set of weights serves single
+      frames and streams.</p>
+
+    <div class="two" style="margin-top:28px">
+      <div>
+        <h3>Ten training sources, one body model</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Source</th><th>Sensor</th><th class="num">Clouds</th></tr></thead>
+            <tbody>
+              <tr><td>BEDLAM2</td><td>rendered depth, clothed</td><td class="num">575k</td></tr>
+              <tr><td>AMASS</td><td>virtual Kinect, unclothed</td><td class="num">387k</td></tr>
+              <tr><td>CAPE</td><td>virtual Kinect, clothed scans</td><td class="num">32k</td></tr>
+              <tr class="sep"><td>HuMMan</td><td>10&times; Azure Kinect</td><td class="num">421k</td></tr>
+              <tr><td>EgoBody</td><td>5&times; Azure Kinect</td><td class="num">168k</td></tr>
+              <tr><td>BEHAVE</td><td>4&times; Azure Kinect</td><td class="num">45k</td></tr>
+              <tr><td>FORM-HOI</td><td>4&times; stereo depth</td><td class="num">1,640k</td></tr>
+              <tr class="sep"><td>FreeMotion</td><td>3&times; LiDAR, static</td><td class="num">98k</td></tr>
+              <tr><td>SLOPER4D</td><td>LiDAR, moving</td><td class="num">23k</td></tr>
+              <tr><td>RELI11D</td><td>LiDAR, static</td><td class="num">22k</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="caption" style="margin-top:8px">All labels are converted to the neutral locked-head SMPL-X model with 16 shape coefficients.</p>
+      </div>
+      <div>
+        <h3>Errors per sensor</h3>
+        <div class="figure"><img src="static/img/teaser_errors.png" alt="Bar chart of root-relative joint errors on SLOPER4D, FreeMotion and HuMMan for the best published methods and SparseHPS-T with 1 and 8 frames." loading="lazy"></div>
+        <p class="caption">Root-relative joint errors when the model sees only the current frame or also the seven frames
+          before it; the strongest published results come from 32-frame sequences. *Another protocol.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap">
+    <h2>LiDAR benchmarks</h2>
+    <p class="muted small">LiveHPS protocol, SMPL, mm (lower is better). J/V-Err(L): root-relative joint / vertex error.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Method</th><th>Input (frames &times; points)</th><th class="num">SLOPER4D J/V-Err(L)</th><th class="num">FreeMotion J/V-Err(L)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>LiDARCap<sup>a</sup></td><td>sequence</td><td class="num">71.6 / 84.2</td><td class="num">86.3 / 104.2</td></tr>
+          <tr><td>LiveHPS</td><td>32 &times; 256</td><td class="num">48.3 / 59.0</td><td class="num">69.4 / 83.9</td></tr>
+          <tr><td>LiveHPS++</td><td>32 &times; 256</td><td class="num">42.7 / 50.6</td><td class="num">61.9 / 75.3</td></tr>
+          <tr><td>Sparkle</td><td>32 &times; 256</td><td class="num">41.4 / 50.5</td><td class="num">59.0 / 73.2</td></tr>
+          <tr><td>BMLiCap<sup>&dagger;</sup></td><td>32 frames</td><td class="num">36.5 / 44.2</td><td class="num">47.2 / 59.0</td></tr>
+          <tr class="sep"><td>LiveHPS, released model, our evaluation<sup>b</sup></td><td>32 &times; 256</td><td class="num">47.4 / 57.9</td><td class="num">52.8 / 63.7</td></tr>
+          <tr class="sep ours"><td>SparseHPS-S (single frame)</td><td>1 &times; all</td><td class="num">29.0 / 35.8</td><td class="num">42.4 / 52.8</td></tr>
+          <tr class="ours"><td>SparseHPS-T, no history</td><td>1 &times; all</td><td class="num">28.9 / 35.8</td><td class="num">42.9 / 53.3</td></tr>
+          <tr class="ours"><td>SparseHPS-T</td><td>8 &times; all</td><td class="num"><b class="best">28.6</b> / <b class="best">35.3</b></td><td class="num"><b class="best">41.8</b> / <b class="best">51.8</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption" style="margin-top:8px">Published results are taken from each method's paper. <sup>a</sup>As retrained
+      in LiveHPS++. <sup>&dagger;</sup>The 32-frame variant of BMLiCap (local errors only). <sup>b</sup>Released code and
+      weights, official script, on our test files. SparseHPS-T processes the current frame and the 7 previous frames
+      0.2&nbsp;s apart, causally.</p>
+  </div>
+</section>
+
+<section id="humanoid">
+  <div class="wrap">
+    <h2>From a point cloud to a humanoid</h2>
+    <p>Every clip runs the same SparseHPS-T model on a test sequence and hands its SMPL-X motion to a humanoid. The
+      model never sees the robot; the retargeting is kinematic, without physics.</p>
+    <div class="pipeline">
+      <span>point cloud</span><i>&rarr;</i><span>SparseHPS-T (causal, 7 earlier frames)</span><i>&rarr;</i>
+      <span>0.1&nbsp;s offline smoothing</span><i>&rarr;</i><span>GMR retargeting to Unitree G1</span><i>&rarr;</i>
+      <span>foot contact clean-up</span><i>&rarr;</i><span>Isaac Sim render</span>
+    </div>
+    <div class="filters" role="group" aria-label="Filter clips by sensor">
+      <button class="chip" aria-pressed="true" data-f="all">All</button>
+      <button class="chip" aria-pressed="false" data-f="depth">Depth cameras</button>
+      <button class="chip" aria-pressed="false" data-f="lidar">LiDAR</button>
+      <button class="chip" aria-pressed="false" data-f="synthetic">Synthetic</button>
+    </div>
+    <div class="gallery" id="gallery"></div>
+    <p class="caption" style="margin-top:14px">Left: the input cloud (2&nbsp;cm voxels, colored by height). Middle: the
+      SparseHPS estimate. Right: Unitree G1 driven by
+      <a href="https://github.com/YanjieZe/GMR">GMR</a> retargeting. Clips were picked for variety of motion; the
+      percentile tag tells where a clip's median vertex error falls within its test set (50 = typical, lower = easier).
+      For HuMMan the camera facing the person was chosen. The person's height above the floor and the robot's stance
+      foot are adjusted so that feet neither float nor slide.</p>
+  </div>
+</section>
+
+<section id="bibtex">
+  <div class="wrap">
+    <h2>BibTeX</h2>
+<pre><code>@article{zaychuk2026sparsehps,
+  title   = {SparseHPS: A Unified Model for Human Pose and Shape across Depth Cameras and LiDARs},
+  author  = {Zaychuk, Ilya},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</code></pre>
+  </div>
+</section>
+
+<section id="credits">
+  <div class="wrap">
+    <h2>Datasets and acknowledgements</h2>
+    <p class="muted">SparseHPS is trained on the ten datasets below; the demo clips show held-out sequences of the seven
+      marked <span class="demo-mark">demo</span>. All datasets belong to their authors and are used under their licenses
+      for non-commercial research. Please cite them when you use this work.</p>
+    <ol class="refs">
+      <li><b>AMASS</b> <span class="demo-mark">demo</span> &mdash; N. Mahmood, N. Ghorbani, N. F. Troje, G. Pons-Moll,
+        M. J. Black. AMASS: Archive of Motion Capture As Surface Shapes. ICCV 2019.
+        <a href="https://doi.org/10.1109/iccv.2019.00554">doi</a> &middot;
+        <a href="https://amass.is.tue.mpg.de/">project</a> &middot;
+        <a href="https://download.is.tue.mpg.de/amass/amass.bib">BibTeX of the AMASS subsets</a></li>
+      <li><b>BEDLAM2</b> <span class="demo-mark">demo</span> &mdash; J. Tesch, G. Becherini, P. Achar,
+        A. Yiannakidis, M. Kocabas, P. Patel, M. J. Black. BEDLAM2.0: Synthetic Humans and Cameras in Motion.
+        NeurIPS 2025 Datasets and Benchmarks.
+        <a href="https://doi.org/10.52202/085713-1628">doi</a> &middot;
+        <a href="https://bedlam2.is.tue.mpg.de/">project</a></li>
+      <li><b>CAPE</b> <span class="demo-mark">demo</span> &mdash; Q. Ma, J. Yang, A. Ranjan, S. Pujades,
+        G. Pons-Moll, S. Tang, M. J. Black. Learning to Dress 3D People in Generative Clothing. CVPR 2020.
+        <a href="https://doi.org/10.1109/cvpr42600.2020.00650">doi</a>; and G. Pons-Moll, S. Pujades, S. Hu,
+        M. J. Black. ClothCap: Seamless 4D Clothing Capture and Retargeting. ACM TOG (SIGGRAPH) 2017.
+        <a href="https://doi.org/10.1145/3072959.3073711">doi</a> &middot;
+        <a href="https://cape.is.tue.mpg.de/">project</a></li>
+      <li><b>HuMMan</b> <span class="demo-mark">demo</span> &mdash; Z. Cai et al. HuMMan: Multi-modal 4D Human
+        Dataset for Versatile Sensing and Modeling. ECCV 2022.
+        <a href="https://doi.org/10.1007/978-3-031-20071-7_33">doi</a> &middot;
+        <a href="https://caizhongang.com/projects/HuMMan/">project</a> (S-Lab License 1.0)</li>
+      <li><b>FreeMotion</b> <span class="demo-mark">demo</span> &mdash; Y. Ren, X. Han, C. Zhao, J. Wang, L. Xu,
+        J. Yu, Y. Ma. LiveHPS: LiDAR-based Scene-level Human Pose and Shape Estimation in Free Environment. CVPR 2024.
+        <a href="https://doi.org/10.1109/cvpr52733.2024.00128">doi</a> &middot;
+        <a href="https://github.com/4DVLab/LiveHPS">project</a></li>
+      <li><b>SLOPER4D</b> <span class="demo-mark">demo</span> &mdash; Y. Dai et al. SLOPER4D: A Scene-Aware Dataset
+        for Global 4D Human Pose Estimation in Urban Environments. CVPR 2023.
+        <a href="https://doi.org/10.1109/cvpr52729.2023.00073">doi</a> &middot;
+        <a href="https://github.com/climbingdaily/SLOPER4D">project</a></li>
+      <li><b>RELI11D</b> <span class="demo-mark">demo</span> &mdash; M. Yan et al. RELI11D: A Comprehensive
+        Multimodal Human Motion Dataset and Method. CVPR 2024.
+        <a href="https://doi.org/10.1109/cvpr52733.2024.00219">doi</a> &middot;
+        <a href="https://github.com/yanmn/RELI11DandLIER">project</a></li>
+      <li><b>EgoBody</b> &mdash; S. Zhang et al. EgoBody: Human Body Shape and Motion of Interacting People from
+        Head-Mounted Devices. ECCV 2022. <a href="https://doi.org/10.1007/978-3-031-20068-7_11">doi</a></li>
+      <li><b>BEHAVE</b> &mdash; B. L. Bhatnagar, X. Xie, I. A. Petrov, C. Sminchisescu, C. Theobalt, G. Pons-Moll.
+        BEHAVE: Dataset and Method for Tracking Human Object Interactions. CVPR 2022.
+        <a href="https://doi.org/10.1109/cvpr52688.2022.01547">doi</a></li>
+      <li><b>FORM-HOI</b> &mdash; NVIDIA. FORM-HOI: Foundry for Reconstruction from Multiview HOI. Dataset, v0.1.0,
+        2026. <a href="https://huggingface.co/datasets/nvidia/form-hoi">Hugging Face</a></li>
+    </ol>
+
+    <h3 style="margin-top:26px">SMPL-X</h3>
+    <p class="small">SMPL-X Body was used for character animation courtesy of the Max Planck Institute for Intelligent
+      Systems. All human bodies on this page are SMPL-X meshes (G. Pavlakos, V. Choutas, N. Ghorbani, T. Bolkart,
+      A. A. Osman, D. Tzionas, M. J. Black. Expressive Body Capture: 3D Hands, Face, and Body from a Single Image.
+      CVPR 2019, <a href="https://doi.org/10.1109/cvpr.2019.01123">doi</a>); their pose and shape are estimated by
+      SparseHPS. SMPL-X is used under the <a href="https://smpl-x.is.tue.mpg.de/modellicense.html">SMPL-X Model
+      License</a>; SMPL-X Body is licensed under
+      <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+      (<a href="https://smpl-x.is.tue.mpg.de/bodylicense.html">terms</a>).</p>
+
+    <h3 style="margin-top:22px">Robot, retargeting and rendering</h3>
+    <p class="small">Retargeting: <a href="https://github.com/YanjieZe/GMR">GMR</a> (MIT) &mdash; J. P. Araujo, Y. Ze,
+      P. Xu, J. Wu, C. K. Liu. Retargeting Matters: General Motion Retargeting for Humanoid Motion Tracking.
+      <a href="https://arxiv.org/abs/2510.02252">arXiv:2510.02252</a>, 2025; Y. Ze et al. TWIST: Teleoperated
+      Whole-Body Imitation System. <a href="https://arxiv.org/abs/2505.02833">arXiv:2505.02833</a>, 2025.
+      Robot model: Unitree G1 from <a href="https://github.com/unitreerobotics/unitree_ros">unitree_ros</a>,
+      &copy; Unitree Robotics, BSD-3-Clause; its use here does not imply endorsement by Unitree Robotics.
+      Rendering: NVIDIA Isaac Sim.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    Datasets, the SMPL-X body model, the robot model and the tools used on this page are credited in
+    <a href="#credits">Datasets and acknowledgements</a>.
+  </div>
+</footer>
+
+<script>
+const CLIPS = [
+  ['bedlam2_t1354496', 53, 'BEDLAM2', 'rendered depth', 'synthetic'],
+  ['humman_t8500', 23, 'HuMMan', 'Azure Kinect', 'depth'],
+  ['sloper_t2_walk', 23, 'SLOPER4D', 'moving LiDAR, 20 m walk outdoors', 'lidar'],
+  ['reli11d_t1', 57, 'RELI11D', 'static LiDAR, sports', 'lidar'],
+  ['humman_t3350', 42, 'HuMMan', 'Azure Kinect', 'depth'],
+  ['amass_t317', 59, 'AMASS', 'virtual Kinect', 'synthetic'],
+  ['freemotion_t941', 18, 'FreeMotion', 'static LiDAR', 'lidar'],
+  ['cape_t291', 57, 'CAPE', 'virtual Kinect on clothed scans', 'synthetic'],
+  ['humman_t8490', 60, 'HuMMan', 'Azure Kinect', 'depth'],
+  ['sloper_t5_fast', 11, 'SLOPER4D', 'moving LiDAR, jogging', 'lidar'],
+  ['bedlam2_t2024193', 62, 'BEDLAM2', 'rendered depth', 'synthetic'],
+  ['humman_t590', 5, 'HuMMan', 'Azure Kinect', 'depth'],
+  ['reli11d_t3', 65, 'RELI11D', 'static LiDAR, sports', 'lidar'],
+  ['amass_t11', 57, 'AMASS', 'virtual Kinect', 'synthetic'],
+  ['amass_t107', 71, 'AMASS', 'virtual Kinect', 'synthetic'],
+];
+const gallery = document.getElementById('gallery');
+for (const [file, pct, set, sensor, kind] of CLIPS) {
+  const el = document.createElement('figure');
+  el.className = 'clip';
+  el.dataset.kind = kind;
+  el.style.margin = '0';
+  const tag = kind === 'synthetic' ? '<span class="tag synthetic">synthetic</span>' : '<span class="tag real">real sensor</span>';
+  el.innerHTML = `<video src="static/video/${file}.mp4" muted loop playsinline controls preload="none"
+      poster="static/img/posters/${file}.jpg"></video>
+    <figcaption class="meta"><span class="title">${set}</span><span class="muted">${sensor}</span>${tag}
+      <span class="tag" title="Share of the test set's frames with a lower vertex error than this clip's median">error: ${pct}th percentile</span></figcaption>`;
+  gallery.appendChild(el);
+}
+// play clips only while they are on screen
+const io = new IntersectionObserver(entries => {
+  for (const e of entries) {
+    const v = e.target.querySelector('video');
+    if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => {}); } else { v.pause(); }
+  }
+}, { threshold: 0.35 });
+document.querySelectorAll('.clip').forEach(c => io.observe(c));
+document.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.chip').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+  const f = btn.dataset.f;
+  document.querySelectorAll('.clip').forEach(c => { c.hidden = !(f === 'all' || c.dataset.kind === f); });
+}));
+</script>
+</body>
+</html>

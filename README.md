@@ -13,7 +13,7 @@
 <a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/teaser.webp" width="100%" alt="Input point cloud, SparseHPS SMPL-X estimate and a Unitree G1 robot following the motion"></a>
 
 <sub>Input cloud (2 cm voxels, as the model reads it) → SparseHPS-T estimate → Unitree G1 via kinematic retargeting
-(GMR). Test sequences of AMASS, BEDLAM2, FreeMotion, HuMMan and RELI11D; the motion is smoothed for display.</sub>
+(GMR). Test sequences of AMASS, BEDLAM2, FreeMotion, HuMMan and RELI11D.</sub>
 
 </div>
 

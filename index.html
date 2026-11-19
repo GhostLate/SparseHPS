@@ -42,7 +42,7 @@
     </div>
     <p class="caption" style="margin-top:10px">Input cloud (2&nbsp;cm voxels, as the model reads it) &rarr; SparseHPS estimate
       &rarr; Unitree G1 via kinematic retargeting. Real and synthetic test sequences; the body and the robot are rendered
-      in NVIDIA Isaac Sim. The motion is smoothed for display (see <a href="#humanoid">the demo</a>).</p>
+      in NVIDIA Isaac Sim.</p>
   </div>
 </header>
 
@@ -137,6 +137,33 @@
         alt="Table 3 of the paper: real Azure Kinect clouds of HuMMan. Prior work under the PointHPS protocol: Sparkle 63.5/76.4 mm J/V-Err(L). SparseHPS-T on 42 held-out subjects: 34.7/44.3 mm; the two blocks are not directly comparable."></a>
     </div>
     <p class="caption">Table&nbsp;3 of the paper. Numbers in brackets refer to the paper's references.</p>
+
+    <h3 style="margin-top:34px">Every single-frame test set</h3>
+    <div class="table-wrap sets-table">
+      <table>
+        <thead><tr><th>Test set</th><th class="num">Clouds</th><th class="num">MVE</th><th class="num">PA-MVE</th><th class="num">MPJPE</th><th class="num">PA-MPJPE</th><th class="num">JAE</th></tr></thead>
+        <tbody>
+          <tr><td>AMASS</td><td class="num">15,336</td><td class="num">13.0</td><td class="num">9.8</td><td class="num">16.4</td><td class="num">11.1</td><td class="num">4.5</td></tr>
+          <tr><td>BEDLAM2</td><td class="num">29,994</td><td class="num">29.9</td><td class="num">19.5</td><td class="num">35.5</td><td class="num">22.9</td><td class="num">5.5</td></tr>
+          <tr><td>CAPE</td><td class="num">4,946</td><td class="num">24.3</td><td class="num">18.9</td><td class="num">29.8</td><td class="num">21.9</td><td class="num">15.2</td></tr>
+          <tr class="sep"><td>EgoBody</td><td class="num">121,714</td><td class="num">47.2</td><td class="num">29.3</td><td class="num">55.4</td><td class="num">35.7</td><td class="num">8.3</td></tr>
+          <tr class="sub"><td>unseen subjects</td><td class="num">66,648</td><td class="num">44.9</td><td class="num">28.7</td><td class="num">53.3</td><td class="num">35.5</td><td class="num">8.6</td></tr>
+          <tr><td>BEHAVE</td><td class="num">18,181</td><td class="num">34.2</td><td class="num">25.3</td><td class="num">41.8</td><td class="num">31.8</td><td class="num">9.1</td></tr>
+          <tr class="sub"><td>unseen subject</td><td class="num">6,172</td><td class="num">44.0</td><td class="num">29.4</td><td class="num">51.5</td><td class="num">36.3</td><td class="num">11.1</td></tr>
+          <tr><td>HuMMan</td><td class="num">63,505</td><td class="num">38.0</td><td class="num">26.4</td><td class="num">44.2</td><td class="num">29.7</td><td class="num">12.0</td></tr>
+          <tr><td>FORM-HOI</td><td class="num">87,845</td><td class="num">31.3</td><td class="num">19.4</td><td class="num">36.6</td><td class="num">22.9</td><td class="num">6.1</td></tr>
+          <tr class="sep"><td>SLOPER4D</td><td class="num">9,955</td><td class="num">32.8</td><td class="num">22.4</td><td class="num">39.7</td><td class="num">26.6</td><td class="num">8.8</td></tr>
+          <tr><td>FreeMotion</td><td class="num">32,630</td><td class="num">68.5</td><td class="num">33.0</td><td class="num">78.6</td><td class="num">41.7</td><td class="num">6.4</td></tr>
+          <tr><td>RELI11D</td><td class="num">3,597</td><td class="num">29.5</td><td class="num">22.1</td><td class="num">38.3</td><td class="num">29.4</td><td class="num">6.6</td></tr>
+          <tr class="sub"><td>512-point clouds</td><td class="num">3,597</td><td class="num">31.5</td><td class="num">23.4</td><td class="num">40.8</td><td class="num">31.1</td><td class="num">6.9</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption" style="margin-top:8px">SparseHPS-T on every single-frame test set, without a history (SMPL-X,
+      mm; JAE in degrees; MPJPE over 127 joints). Indented rows are subsets or variants and, like CAPE, are not part of
+      the nine-set means (36.0&nbsp;mm MVE, 23.0&nbsp;mm PA-MVE): the EgoBody and BEHAVE subjects that never appear in
+      training, and the 512-point clouds of the RELI11D benchmark. HuMMan, FORM-HOI and CAPE test subjects are all
+      unseen.</p>
   </div>
 </section>
 

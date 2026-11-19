@@ -72,6 +72,10 @@ table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
 th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
 th { background: var(--bg-2); color: var(--muted); font-weight: 600; }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.sub td:first-child { padding-left: 30px; color: var(--muted); }
+tr.sub td { color: var(--muted); }
+.sets-table td:first-child { white-space: nowrap; }
+@media (max-width: 520px) { tr.sub td:first-child { padding-left: 18px; } }
 @media (max-width: 520px) { th, td { white-space: normal; padding: 8px 9px; } td.num, th.num { white-space: nowrap; } }
 tr.ours td { color: #fff; background: rgba(74, 163, 223, 0.12); }
 tr.ours td:first-child { border-left: 3px solid var(--ours); }

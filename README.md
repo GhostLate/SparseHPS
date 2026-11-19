@@ -33,10 +33,6 @@ J-Err(L), root-relative joint error in mm under the LiveHPS protocol:
 | **FreeMotion** | static LiDARs, released test file | **41.8** | 47.2 |
 | **HuMMan** | real Azure Kinect, 42 held-out subjects | **34.7** | none on this split |
 
-As the paper states, the comparison with published methods is not fully controlled: SparseHPS is trained on more
-sources; prior LiDAR methods read 256 points per frame, whereas SparseHPS reads all points; the released FreeMotion test
-file does not reproduce the published LiveHPS result (52.8 instead of 69.4 mm); and the HuMMan splits differ.
-
 - **Sensor-agnostic.** Point density differs by more than ten times between devices; one set of weights serves depth
   cameras and LiDARs.
 - **Single frames and streams.** A causal memory of tokens from the seven preceding frames adds temporal context

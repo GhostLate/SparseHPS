@@ -76,8 +76,9 @@ tr.ours td { color: #fff; background: rgba(74, 163, 223, 0.12); }
 tr.ours td:first-child { border-left: 3px solid var(--ours); }
 tr.sep td { border-top: 2px solid var(--line); }
 b.best { color: var(--accent); }
-tr.group td { background: var(--bg-2); color: var(--muted); font-style: italic; font-size: 0.86rem; }
-tr.floor td { color: var(--muted); }
+.figure.table-fig { padding: 18px 20px; }
+.figure.table-fig img { width: 100%; height: auto; }
+.figure.table-fig.narrow { max-width: 680px; }
 
 /* gallery */
 .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 20px; }

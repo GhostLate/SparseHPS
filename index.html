@@ -118,58 +118,18 @@
   <div class="wrap">
     <h2>Comparison with prior methods</h2>
     <h3>LiDAR: SLOPER4D and FreeMotion</h3>
-    <p class="muted small">LiveHPS protocol, SMPL, mm (lower is better). J/V-Err(L): root-relative joint / vertex error.</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Method</th><th>Input (frames &times; points)</th><th class="num">SLOPER4D J/V-Err(L)</th><th class="num">FreeMotion J/V-Err(L)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>LiDARCap<sup>a</sup></td><td>sequence</td><td class="num">71.6 / 84.2</td><td class="num">86.3 / 104.2</td></tr>
-          <tr><td>LiveHPS</td><td>32 &times; 256</td><td class="num">48.3 / 59.0</td><td class="num">69.4 / 83.9</td></tr>
-          <tr><td>LiveHPS++</td><td>32 &times; 256</td><td class="num">42.7 / 50.6</td><td class="num">61.9 / 75.3</td></tr>
-          <tr><td>Sparkle</td><td>32 &times; 256</td><td class="num">41.4 / 50.5</td><td class="num">59.0 / 73.2</td></tr>
-          <tr><td>BMLiCap<sup>&dagger;</sup></td><td>32 frames</td><td class="num">36.5 / 44.2</td><td class="num">47.2 / 59.0</td></tr>
-          <tr class="sep"><td>LiveHPS, released model, our evaluation<sup>b</sup></td><td>32 &times; 256</td><td class="num">47.4 / 57.9</td><td class="num">52.8 / 63.7</td></tr>
-          <tr class="sep ours"><td>SparseHPS-S (single frame)</td><td>1 &times; all</td><td class="num">29.0 / 35.8</td><td class="num">42.4 / 52.8</td></tr>
-          <tr class="ours"><td>SparseHPS-T, no history</td><td>1 &times; all</td><td class="num">28.9 / 35.8</td><td class="num">42.9 / 53.3</td></tr>
-          <tr class="ours"><td>SparseHPS-T</td><td>8 &times; all</td><td class="num"><b class="best">28.6</b> / <b class="best">35.3</b></td><td class="num"><b class="best">41.8</b> / <b class="best">51.8</b></td></tr>
-        </tbody>
-      </table>
+    <div class="figure table-fig">
+      <a href="static/img/table_lidar.png" title="Open full size"><img src="static/img/table_lidar.png" width="2106" height="991" loading="lazy"
+        alt="Table 2 of the paper: comparison on the SLOPER4D and FreeMotion LiDAR benchmarks under the LiveHPS protocol. SparseHPS-T has the lowest errors on both: J/V-Err(L) 28.6/35.3 mm on SLOPER4D and 41.8/51.8 mm on FreeMotion, against 41.4/50.5 and 59.0/73.2 mm for Sparkle."></a>
     </div>
-    <p class="caption" style="margin-top:8px">Published results are taken from each method's paper. <sup>a</sup>As retrained
-      in LiveHPS++. <sup>&dagger;</sup>The 32-frame variant of BMLiCap (local errors only). <sup>b</sup>Released code and
-      weights, official script, on our test files. SparseHPS-T processes the current frame and the 7 previous frames
-      0.2&nbsp;s apart, causally.</p>
+    <p class="caption">Table&nbsp;2 of the paper. Numbers in brackets refer to the paper's references.</p>
 
     <h3 style="margin-top:34px">Depth camera: HuMMan-Point (real Azure Kinect)</h3>
-    <p class="muted small">SMPL, mm and degrees (lower is better). J/V-Err(G): with the global translation; Ang: angle
-      error of the official LiveHPS code.</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Method</th><th class="num">J/V-Err(L)</th><th class="num">J/V-Err(G)</th><th class="num">PA-MPJPE</th><th class="num">Ang</th></tr>
-        </thead>
-        <tbody>
-          <tr class="group"><td colspan="5">PointHPS protocol (subset of clips, unpublished split)</td></tr>
-          <tr><td>VoteHMR</td><td class="num">81.1 / 97.6</td><td class="num">&ndash;</td><td class="num">63.4</td><td class="num">&ndash;</td></tr>
-          <tr><td>PointHPS</td><td class="num">70.1 / 81.9</td><td class="num">&ndash;</td><td class="num">52.0</td><td class="num">&ndash;</td></tr>
-          <tr><td>LiveHPS++<sup>a</sup></td><td class="num">71.4 / 92.4</td><td class="num">95.6 / 113.1</td><td class="num">&ndash;</td><td class="num">21.47</td></tr>
-          <tr><td>Sparkle</td><td class="num">63.5 / 76.4</td><td class="num">87.5 / 97.6</td><td class="num">&ndash;</td><td class="num">12.60</td></tr>
-          <tr class="group"><td colspan="5">Held-out subjects (ours: 42 test subjects never seen in training)</td></tr>
-          <tr><td>Synthetic sources only</td><td class="num">58.6 / 72.4</td><td class="num">62.0 / 71.5</td><td class="num">44.3</td><td class="num">13.41</td></tr>
-          <tr><td>Single-token baseline</td><td class="num">38.7 / 48.8</td><td class="num">43.7 / 51.1</td><td class="num">29.3</td><td class="num">10.61</td></tr>
-          <tr class="ours"><td>SparseHPS-S (single frame)</td><td class="num">35.2 / 44.8</td><td class="num">37.4 / 44.6</td><td class="num">27.6</td><td class="num">10.22</td></tr>
-          <tr class="ours"><td>SparseHPS-T, no history</td><td class="num">34.7 / 44.3</td><td class="num">36.8 / <b class="best">43.9</b></td><td class="num">27.1</td><td class="num">10.06</td></tr>
-          <tr class="ours"><td>SparseHPS-T</td><td class="num"><b class="best">34.7</b> / <b class="best">44.3</b></td><td class="num"><b class="best">36.7</b> / 44.0</td><td class="num"><b class="best">27.1</b></td><td class="num"><b class="best">10.00</b></td></tr>
-          <tr class="floor"><td>Label floor</td><td class="num">3.9 / 10.8</td><td class="num">3.6 / 10.5</td><td class="num">3.5</td><td class="num">5.58</td></tr>
-        </tbody>
-      </table>
+    <div class="figure table-fig narrow">
+      <a href="static/img/table_humman.png" title="Open full size"><img src="static/img/table_humman.png" width="1445" height="1146" loading="lazy"
+        alt="Table 3 of the paper: real Azure Kinect clouds of HuMMan. Prior work under the PointHPS protocol: Sparkle 63.5/76.4 mm J/V-Err(L). SparseHPS-T on 42 held-out subjects: 34.7/44.3 mm; the two blocks are not directly comparable."></a>
     </div>
-    <p class="caption" style="margin-top:8px">Prior work follows the PointHPS protocol (a subset of clips with an
-      unpublished split); we hold out 42 subjects, so the two blocks are not directly comparable. VoteHMR, PointHPS:
-      MPJPE / PVE reported by PointHPS, as in Sparkle. <sup>a</sup>From Sparkle. <i>Label floor</i>: our SMPL-X labels
-      against the original SMPL annotation, the lowest error a model trained on them can reach.</p>
+    <p class="caption">Table&nbsp;3 of the paper. Numbers in brackets refer to the paper's references.</p>
   </div>
 </section>
 

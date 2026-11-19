@@ -155,7 +155,8 @@
       SparseHPS estimate. Right: Unitree G1 driven by
       <a href="https://github.com/YanjieZe/GMR">GMR</a> retargeting. Clips were picked for variety of motion; the
       percentile tag tells where a clip's median vertex error falls within its test set (50 = typical, lower = easier).
-      For HuMMan the camera facing the person was chosen. The body and the robot are smoothed with the same 0.1&nbsp;s
+      For HuMMan the camera facing the person was chosen. The SLOPER4D and taekwondo clips are shown from the person's
+      front, although their LiDAR saw the person mostly from behind. The body and the robot are smoothed with the same 0.1&nbsp;s
       filter, and the height of each is fitted so that its lower foot stays on the floor; walking figures are kept in
       place in the frame.</p>
   </div>
@@ -254,18 +255,18 @@
 const CLIPS = [
   ['bedlam2_t1354496', 53, 'BEDLAM2', 'rendered depth', 'synthetic'],
   ['humman_t8500', 23, 'HuMMan', 'Azure Kinect', 'depth'],
-  ['sloper_t2_walk', 23, 'SLOPER4D', 'moving LiDAR, 20 m walk outdoors', 'lidar'],
-  ['reli11d_t1', 57, 'RELI11D', 'static LiDAR, sports', 'lidar'],
-  ['humman_t3350', 42, 'HuMMan', 'Azure Kinect', 'depth'],
+  ['reli11d_t5', 53, 'RELI11D', 'static LiDAR, taekwondo', 'lidar'],
+  ['reli11d_t1', 57, 'RELI11D', 'static LiDAR, boxing', 'lidar'],
+  ['humman_t1730', 29, 'HuMMan', 'Azure Kinect', 'depth'],
   ['amass_t317', 59, 'AMASS', 'virtual Kinect', 'synthetic'],
   ['freemotion_t941', 18, 'FreeMotion', 'static LiDAR', 'lidar'],
-  ['cape_t291', 57, 'CAPE', 'virtual Kinect on clothed scans', 'synthetic'],
-  ['humman_t8490', 60, 'HuMMan', 'Azure Kinect', 'depth'],
-  ['sloper_t5_fast', 11, 'SLOPER4D', 'moving LiDAR, jogging', 'lidar'],
-  ['bedlam2_t2024193', 62, 'BEDLAM2', 'rendered depth', 'synthetic'],
+  ['cape_t322', 62, 'CAPE', 'virtual Kinect on clothed scans', 'synthetic'],
+  ['humman_t8250', 20, 'HuMMan', 'Azure Kinect', 'depth'],
+  ['sloper_t4_run', 27, 'SLOPER4D', 'moving LiDAR, running', 'lidar'],
+  ['bedlam2_t657920', 34, 'BEDLAM2', 'rendered depth', 'synthetic'],
   ['humman_t590', 5, 'HuMMan', 'Azure Kinect', 'depth'],
-  ['reli11d_t3', 65, 'RELI11D', 'static LiDAR, sports', 'lidar'],
-  ['amass_t11', 57, 'AMASS', 'virtual Kinect', 'synthetic'],
+  ['reli11d_t0', 40, 'RELI11D', 'static LiDAR, table tennis', 'lidar'],
+  ['amass_t345', 40, 'AMASS', 'virtual Kinect', 'synthetic'],
   ['amass_t107', 71, 'AMASS', 'virtual Kinect', 'synthetic'],
 ];
 const gallery = document.getElementById('gallery');

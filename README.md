@@ -13,7 +13,8 @@
 <a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/teaser.webp" width="100%" alt="Input point cloud, SparseHPS SMPL-X estimate and a Unitree G1 robot following the motion"></a>
 
 <sub>Input cloud (2 cm voxels, as the model reads it) → SparseHPS-T estimate → Unitree G1 in physics simulation
-(SOMA Retargeter + SONIC policy, MuJoCo). Test sequences of AMASS, BEDLAM2, FreeMotion, HuMMan and RELI11D.</sub>
+(SOMA Retargeter + SONIC policy, MuJoCo). Test sequences of AMASS, BEDLAM2, EgoBody, FreeMotion, HuMMan, RELI11D
+and SLOPER4D.</sub>
 
 </div>
 

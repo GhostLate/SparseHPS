@@ -35,7 +35,7 @@ J-Err(L), root-relative joint error in mm under the LiveHPS protocol:
 |---|---|---:|---:|
 | **SLOPER4D** | moving LiDAR | **28.6** | 36.5 |
 | **FreeMotion** | static LiDARs, released test file | **41.8** | 47.2 |
-| **HuMMan** | real Azure Kinect, 42 held-out subjects | **34.7** | none on this split |
+| **HuMMan** | real Azure Kinect, 42 held-out subjects | **34.7** | 63.5 (Sparkle, PointHPS split) |
 
 - **Sensor-agnostic.** Point density differs by more than ten times between devices; one set of weights serves depth
   cameras and LiDARs.

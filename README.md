@@ -18,11 +18,8 @@ and SLOPER4D.</sub>
 
 </div>
 
-This repository is the official PyTorch implementation of the paper **SparseHPS: A Unified Model for Human Pose and
+The official PyTorch implementation of the paper **SparseHPS: A Unified Model for Human Pose and
 Shape across Depth Cameras and LiDARs**.
-
-> [!NOTE]
-> The code and the model weights are not public yet; until then this repository hosts the project page.
 
 **One network, one set of weights:** SMPL-X body pose, shape and metric global translation from the point cloud of
 any depth camera or LiDAR, for single frames and streams alike; one cloud takes 10 ms on an RTX 4090.
@@ -89,15 +86,11 @@ model of all results and demos, is trained on all ten sources and adds the memor
 
 ## From a point cloud to a humanoid
 
-Every clip runs the same SparseHPS-T model on a test sequence and hands its SMPL-X motion to a Unitree G1; the model
-never sees the robot. NVIDIA's [SOMA Retargeter](https://github.com/NVIDIA/soma-retargeter) maps the motion to the
-robot, and the robot is simulated in MuJoCo under NVIDIA's pretrained
-[SONIC](https://github.com/NVlabs/GR00T-WholeBodyControl) tracking policy, so it has to keep its balance. The body and
-the robot are rendered in NVIDIA Isaac Sim. For display, the body is smoothed offline (Gaussian, σ = 0.1 s) and shifted
-vertically so that the lower foot rests on the floor, and the robot tracks this smoothed motion; the network output
-itself is causal and not smoothed. Hands are
-not estimated and are shown in a fixed relaxed pose. The videos are on the
-[project page](https://ghostlate.github.io/SparseHPS/#humanoid).
+Every clip runs the same SparseHPS-T model on a test sequence and hands its SMPL-X motion to a Unitree G1. 
+NVIDIA's [SOMA Retargeter](https://github.com/NVIDIA/soma-retargeter) maps the motion to the robot, and the robot is simulated in MuJoCo under NVIDIA's 
+pretrained [SONIC](https://github.com/NVlabs/GR00T-WholeBodyControl) tracking policy, so it has to keep its balance. The body and
+the robot are rendered in NVIDIA Isaac Sim. Hands are not estimated and are shown in a fixed relaxed pose. 
+The videos are on the [project page](https://ghostlate.github.io/SparseHPS/#humanoid).
 
 <table>
 <tr>

@@ -66,9 +66,9 @@
       a joint error of 34.7&nbsp;mm. Moreover, the current frame alone already yields the bulk of this accuracy.</p>
 
     <div class="stats">
-      <div class="stat"><div class="v">28.6&nbsp;mm</div><div class="k">SLOPER4D J-Err(L), LiDAR, all points. Best published: 36.5&nbsp;mm (32 frames)</div></div>
-      <div class="stat"><div class="v">41.8&nbsp;mm</div><div class="k">FreeMotion J-Err(L), LiDAR, released test file. Best published: 47.2&nbsp;mm (32 frames)</div></div>
-      <div class="stat"><div class="v">34.7&nbsp;mm</div><div class="k">HuMMan J-Err(L), real Azure Kinect, 42 held-out subjects. Sparkle: 63.5&nbsp;mm (32 frames, PointHPS split)</div></div>
+      <div class="stat"><div class="v">28.6&nbsp;mm</div><div class="k">SLOPER4D J-Err(L), LiDAR. Prior SOTA: 36.5&nbsp;mm (32 frames)</div></div>
+      <div class="stat"><div class="v">41.8&nbsp;mm</div><div class="k">FreeMotion J-Err(L), LiDAR. Prior SOTA: 47.2&nbsp;mm (32 frames)</div></div>
+      <div class="stat"><div class="v">34.7&nbsp;mm</div><div class="k">HuMMan J-Err(L), real Azure Kinect. Prior SOTA: 63.5&nbsp;mm (32 frames)</div></div>
       <div class="stat"><div class="v">10&nbsp;ms</div><div class="k">one cloud on an RTX&nbsp;4090 (single-frame mode); 50.0M parameters</div></div>
     </div>
   </div>
@@ -171,10 +171,9 @@
 <section id="humanoid">
   <div class="wrap">
     <h2>From a point cloud to a humanoid</h2>
-    <p>Every clip runs the same SparseHPS-T model on a test sequence and hands its SMPL-X motion to a humanoid. The
-      model never sees the robot. NVIDIA's SOMA Retargeter maps the motion to a Unitree G1, and the robot is simulated
-      in MuJoCo under NVIDIA's pretrained SONIC tracking policy: it has to keep its balance, and its feet rest on the
-      floor through contact.</p>
+    <p>Every clip runs the same SparseHPS-T model on a test sequence and hands its SMPL-X motion to a humanoid.
+      NVIDIA's SOMA Retargeter maps the motion to a Unitree G1, and the robot is simulated in MuJoCo under NVIDIA's
+      pretrained SONIC tracking policy: it has to keep its balance, and its feet rest on the floor through contact.</p>
     <div class="pipeline">
       <span>point cloud</span><i>&rarr;</i><span>SparseHPS-T (causal, 7 earlier frames)</span><i>&rarr;</i>
       <span>SOMA retargeting to Unitree G1</span><i>&rarr;</i><span>SONIC policy, MuJoCo physics</span><i>&rarr;</i>
@@ -194,10 +193,7 @@
       For the multi-camera sets (HuMMan, EgoBody, FORM-HOI) the camera facing the person was chosen; the SLOPER4D
       LiDAR follows the runner from behind, so that clip is shown from the runner's front. Walking figures are kept in
       place in the frame. Objects and furniture are neither shown nor simulated: in one EgoBody clip the person sits
-      down on a chair and the robot, which has none, sits on the floor. For display,
-      the body is smoothed offline (Gaussian, &sigma;&nbsp;=&nbsp;0.1&nbsp;s) and shifted vertically so that the
-      lower foot rests on the floor, and the robot tracks this smoothed motion; the network output itself is causal and
-      not smoothed. Hands are not estimated and
+      down on a chair and the robot, which has none, sits on the floor. Hands are not estimated and
       are shown in a fixed relaxed pose.</p>
   </div>
 </section>

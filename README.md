@@ -75,10 +75,9 @@ model of all results and demos, is trained on all ten sources and adds the memor
 
 ## Results
 
-<p align="center"><img src="static/img/teaser_errors.png" width="70%" alt="Root-relative joint errors per sensor"></p>
+<p align="center"><img src="static/img/figure1.png" width="60%" alt="Figure 1 of the paper: test samples from HuMMan, SLOPER4D and FreeMotion (input, ours, GT) and root-relative joint errors per sensor"></p>
 
-<sub>LiveHPS, LiveHPS++ and Sparkle read 32 frames of 256 points. HuMMan: prior work uses another split, so no
-published bar is shown.</sub>
+<sub>Figure 1 of the paper. LiveHPS, LiveHPS++ and Sparkle read 32 frames of 256 points.</sub>
 
 <details>
 <summary><b>Comparison tables from the paper</b> (LiDAR benchmarks and HuMMan-Point)</summary>

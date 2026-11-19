@@ -154,8 +154,7 @@
       SparseHPS estimate. Right: Unitree G1 driven by
       <a href="https://github.com/YanjieZe/GMR">GMR</a> retargeting. Clips were picked for variety of motion; the
       percentile tag tells where a clip's median vertex error falls within its test set (50 = typical, lower = easier).
-      For HuMMan the camera facing the person was chosen. The taekwondo clip and one AMASS clip are shown from the
-      person's front, although their sensor saw the person mostly from behind. Walking figures are kept in place in the frame.</p>
+      For HuMMan the camera facing the person was chosen. Walking figures are kept in place in the frame.</p>
   </div>
 </section>
 
@@ -252,18 +251,15 @@
 const CLIPS = [
   ['bedlam2_t1354496', 53, 'BEDLAM2', 'rendered depth', 'synthetic'],
   ['humman_t4050', 11, 'HuMMan', 'Azure Kinect', 'depth'],
-  ['reli11d_t5', 53, 'RELI11D', 'static LiDAR, taekwondo', 'lidar'],
+  ['freemotion_t121', 28, 'FreeMotion', 'static LiDAR', 'lidar'],
   ['reli11d_t1', 57, 'RELI11D', 'static LiDAR, boxing', 'lidar'],
   ['humman_t1730', 29, 'HuMMan', 'Azure Kinect', 'depth'],
   ['amass_t317', 59, 'AMASS', 'virtual Kinect', 'synthetic'],
-  ['freemotion_t941', 18, 'FreeMotion', 'static LiDAR', 'lidar'],
-  ['amass_t192', 56, 'AMASS', 'virtual Kinect', 'synthetic'],
-  ['humman_t8250', 20, 'HuMMan', 'Azure Kinect', 'depth'],
-  ['freemotion_t211', 49, 'FreeMotion', 'static LiDAR', 'lidar'],
+  ['freemotion_t281', 11, 'FreeMotion', 'static LiDAR', 'lidar'],
   ['bedlam2_t657920', 34, 'BEDLAM2', 'rendered depth', 'synthetic'],
   ['humman_t590', 5, 'HuMMan', 'Azure Kinect', 'depth'],
-  ['freemotion_t101', 60, 'FreeMotion', 'static LiDAR', 'lidar'],
-  ['amass_t345', 40, 'AMASS', 'virtual Kinect', 'synthetic'],
+  ['freemotion_t491', 11, 'FreeMotion', 'static LiDAR', 'lidar'],
+  ['freemotion_t101', 61, 'FreeMotion', 'static LiDAR', 'lidar'],
   ['amass_t107', 71, 'AMASS', 'virtual Kinect', 'synthetic'],
 ];
 const gallery = document.getElementById('gallery');

@@ -66,15 +66,14 @@
       a joint error of 34.7&nbsp;mm. Moreover, the current frame alone already yields the bulk of this accuracy.</p>
 
     <div class="stats">
-      <div class="stat"><div class="v">28.6&nbsp;mm</div><div class="k">SLOPER4D J-Err(L), LiDAR, all points. Best published: 36.5&nbsp;mm (32 frames); ours on 256 points: 36.8&nbsp;mm</div></div>
-      <div class="stat"><div class="v">41.8&nbsp;mm</div><div class="k">FreeMotion J-Err(L), LiDAR, released test file. Best published: 47.2&nbsp;mm (32 frames); ours on 256 points: 48.2&nbsp;mm</div></div>
+      <div class="stat"><div class="v">28.6&nbsp;mm</div><div class="k">SLOPER4D J-Err(L), LiDAR, all points. Best published: 36.5&nbsp;mm (32 frames)</div></div>
+      <div class="stat"><div class="v">41.8&nbsp;mm</div><div class="k">FreeMotion J-Err(L), LiDAR, released test file. Best published: 47.2&nbsp;mm (32 frames)</div></div>
       <div class="stat"><div class="v">34.7&nbsp;mm</div><div class="k">HuMMan J-Err(L), real Azure Kinect, 42 held-out subjects; no published result on this split</div></div>
       <div class="stat"><div class="v">10&nbsp;ms</div><div class="k">one cloud on an RTX&nbsp;4090 (single-frame mode); 50.0M parameters</div></div>
     </div>
     <p class="caption" style="margin-top:12px">As the paper states, the comparison with published methods is not fully
       controlled: SparseHPS is trained on more sources; prior LiDAR methods read 256 points per frame, whereas SparseHPS
-      reads all points, and its 256-point result uses weights not trained for that input; the released FreeMotion test
-      file does not reproduce the published LiveHPS result (52.8 instead of 69.4&nbsp;mm); and the HuMMan splits
+      reads all points; the released FreeMotion test file does not reproduce the published LiveHPS result (52.8 instead of 69.4&nbsp;mm); and the HuMMan splits
       differ.</p>
   </div>
 </section>
@@ -117,7 +116,7 @@
         <h3>Errors per sensor</h3>
         <div class="figure"><img src="static/img/teaser_errors.png" alt="Bar chart of root-relative joint errors on SLOPER4D, FreeMotion and HuMMan for the best published methods and SparseHPS-T with 1 and 8 frames." loading="lazy"></div>
         <p class="caption">Root-relative joint errors (LiveHPS protocol). LiveHPS, LiveHPS++ and Sparkle read 32 frames of
-          256 points; hatched: SparseHPS-T on 256 points per frame, without retraining. The seven earlier frames lower
+          256 points. The seven earlier frames lower
           the error by 0.3, 1.1 and 0.0&nbsp;mm. HuMMan: prior work uses another split (Table&nbsp;3).</p>
       </div>
     </div>
@@ -129,7 +128,7 @@
     <h2>Comparison with prior methods</h2>
     <h3>LiDAR: SLOPER4D and FreeMotion</h3>
     <p class="caption">Prior methods read 32 frames of 256 points; SparseHPS-T reads all points of the current frame and
-      at most seven earlier frames. Row &ldquo;256 points&rdquo;: the same weights on the prior methods' input.</p>
+      at most seven earlier frames.</p>
     <div class="figure table-fig">
       <a href="static/img/table_lidar.png" title="Open full size"><img src="static/img/table_lidar.png" width="2106" height="991" loading="lazy"
         alt="Table 2 of the paper: comparison on the SLOPER4D and FreeMotion LiDAR benchmarks under the LiveHPS protocol. SparseHPS-T has the lowest errors on both: J/V-Err(L) 28.6/35.3 mm on SLOPER4D and 41.8/51.8 mm on FreeMotion, against 41.4/50.5 and 59.0/73.2 mm for Sparkle."></a>

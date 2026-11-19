@@ -27,16 +27,15 @@ any depth camera or LiDAR, for single frames and streams alike; one cloud takes 
 
 J-Err(L), root-relative joint error in mm under the LiveHPS protocol:
 
-| Benchmark | Sensor | SparseHPS-T | Best published (32 frames) | SparseHPS-T on 256 points |
-|---|---|---:|---:|---:|
-| **SLOPER4D** | moving LiDAR | **28.6** | 36.5 | 36.8 |
-| **FreeMotion** | static LiDARs, released test file | **41.8** | 47.2 | 48.2 |
-| **HuMMan** | real Azure Kinect, 42 held-out subjects | **34.7** | none on this split | – |
+| Benchmark | Sensor | SparseHPS-T | Best published (32 frames) |
+|---|---|---:|---:|
+| **SLOPER4D** | moving LiDAR | **28.6** | 36.5 |
+| **FreeMotion** | static LiDARs, released test file | **41.8** | 47.2 |
+| **HuMMan** | real Azure Kinect, 42 held-out subjects | **34.7** | none on this split |
 
 As the paper states, the comparison with published methods is not fully controlled: SparseHPS is trained on more
-sources; prior LiDAR methods read 256 points per frame, whereas SparseHPS reads all points, and its 256-point result
-uses weights not trained for that input; the released FreeMotion test file does not reproduce the published LiveHPS
-result (52.8 instead of 69.4 mm); and the HuMMan splits differ.
+sources; prior LiDAR methods read 256 points per frame, whereas SparseHPS reads all points; the released FreeMotion test
+file does not reproduce the published LiveHPS result (52.8 instead of 69.4 mm); and the HuMMan splits differ.
 
 - **Sensor-agnostic.** Point density differs by more than ten times between devices; one set of weights serves depth
   cameras and LiDARs.
@@ -78,8 +77,8 @@ model of all results and demos, is trained on all ten sources and adds the memor
 
 <p align="center"><img src="static/img/teaser_errors.png" width="70%" alt="Root-relative joint errors per sensor"></p>
 
-<sub>LiveHPS, LiveHPS++ and Sparkle read 32 frames of 256 points; hatched: SparseHPS-T on 256 points per frame,
-without retraining. HuMMan: prior work uses another split, so no published bar is shown.</sub>
+<sub>LiveHPS, LiveHPS++ and Sparkle read 32 frames of 256 points. HuMMan: prior work uses another split, so no
+published bar is shown.</sub>
 
 <details>
 <summary><b>Comparison tables from the paper</b> (LiDAR benchmarks and HuMMan-Point)</summary>

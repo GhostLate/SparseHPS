@@ -141,8 +141,7 @@
       model never sees the robot; the retargeting is kinematic, without physics.</p>
     <div class="pipeline">
       <span>point cloud</span><i>&rarr;</i><span>SparseHPS-T (causal, 7 earlier frames)</span><i>&rarr;</i>
-      <span>GMR retargeting to Unitree G1</span><i>&rarr;</i><span>0.1&nbsp;s offline smoothing</span><i>&rarr;</i>
-      <span>feet on the floor</span><i>&rarr;</i><span>Isaac Sim render</span>
+      <span>GMR retargeting to Unitree G1</span><i>&rarr;</i><span>Isaac Sim render</span>
     </div>
     <div class="filters" role="group" aria-label="Filter clips by sensor">
       <button class="chip" aria-pressed="true" data-f="all">All</button>
@@ -155,10 +154,8 @@
       SparseHPS estimate. Right: Unitree G1 driven by
       <a href="https://github.com/YanjieZe/GMR">GMR</a> retargeting. Clips were picked for variety of motion; the
       percentile tag tells where a clip's median vertex error falls within its test set (50 = typical, lower = easier).
-      For HuMMan the camera facing the person was chosen. The SLOPER4D and taekwondo clips are shown from the person's
-      front, although their LiDAR saw the person mostly from behind. The body and the robot are smoothed with the same 0.1&nbsp;s
-      filter, and the height of each is fitted so that its lower foot stays on the floor; walking figures are kept in
-      place in the frame.</p>
+      For HuMMan the camera facing the person was chosen. The taekwondo clip and one AMASS clip are shown from the
+      person's front, although their sensor saw the person mostly from behind. Walking figures are kept in place in the frame.</p>
   </div>
 </section>
 
@@ -191,7 +188,7 @@
         NeurIPS 2025 Datasets and Benchmarks.
         <a href="https://doi.org/10.52202/085713-1628">doi</a> &middot;
         <a href="https://bedlam2.is.tue.mpg.de/">project</a></li>
-      <li><b>CAPE</b> <span class="demo-mark">demo</span> &mdash; Q. Ma, J. Yang, A. Ranjan, S. Pujades,
+      <li><b>CAPE</b> &mdash; Q. Ma, J. Yang, A. Ranjan, S. Pujades,
         G. Pons-Moll, S. Tang, M. J. Black. Learning to Dress 3D People in Generative Clothing. CVPR 2020.
         <a href="https://doi.org/10.1109/cvpr42600.2020.00650">doi</a>; and G. Pons-Moll, S. Pujades, S. Hu,
         M. J. Black. ClothCap: Seamless 4D Clothing Capture and Retargeting. ACM TOG (SIGGRAPH) 2017.
@@ -205,7 +202,7 @@
         J. Yu, Y. Ma. LiveHPS: LiDAR-based Scene-level Human Pose and Shape Estimation in Free Environment. CVPR 2024.
         <a href="https://doi.org/10.1109/cvpr52733.2024.00128">doi</a> &middot;
         <a href="https://github.com/4DVLab/LiveHPS">project</a></li>
-      <li><b>SLOPER4D</b> <span class="demo-mark">demo</span> &mdash; Y. Dai et al. SLOPER4D: A Scene-Aware Dataset
+      <li><b>SLOPER4D</b> &mdash; Y. Dai et al. SLOPER4D: A Scene-Aware Dataset
         for Global 4D Human Pose Estimation in Urban Environments. CVPR 2023.
         <a href="https://doi.org/10.1109/cvpr52729.2023.00073">doi</a> &middot;
         <a href="https://github.com/climbingdaily/SLOPER4D">project</a></li>
@@ -254,18 +251,18 @@
 <script>
 const CLIPS = [
   ['bedlam2_t1354496', 53, 'BEDLAM2', 'rendered depth', 'synthetic'],
-  ['humman_t8500', 23, 'HuMMan', 'Azure Kinect', 'depth'],
+  ['humman_t4050', 11, 'HuMMan', 'Azure Kinect', 'depth'],
   ['reli11d_t5', 53, 'RELI11D', 'static LiDAR, taekwondo', 'lidar'],
   ['reli11d_t1', 57, 'RELI11D', 'static LiDAR, boxing', 'lidar'],
   ['humman_t1730', 29, 'HuMMan', 'Azure Kinect', 'depth'],
   ['amass_t317', 59, 'AMASS', 'virtual Kinect', 'synthetic'],
   ['freemotion_t941', 18, 'FreeMotion', 'static LiDAR', 'lidar'],
-  ['cape_t322', 62, 'CAPE', 'virtual Kinect on clothed scans', 'synthetic'],
+  ['amass_t192', 56, 'AMASS', 'virtual Kinect', 'synthetic'],
   ['humman_t8250', 20, 'HuMMan', 'Azure Kinect', 'depth'],
-  ['sloper_t4_run', 27, 'SLOPER4D', 'moving LiDAR, running', 'lidar'],
+  ['freemotion_t211', 49, 'FreeMotion', 'static LiDAR', 'lidar'],
   ['bedlam2_t657920', 34, 'BEDLAM2', 'rendered depth', 'synthetic'],
   ['humman_t590', 5, 'HuMMan', 'Azure Kinect', 'depth'],
-  ['reli11d_t0', 40, 'RELI11D', 'static LiDAR, table tennis', 'lidar'],
+  ['freemotion_t101', 60, 'FreeMotion', 'static LiDAR', 'lidar'],
   ['amass_t345', 40, 'AMASS', 'virtual Kinect', 'synthetic'],
   ['amass_t107', 71, 'AMASS', 'virtual Kinect', 'synthetic'],
 ];

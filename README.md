@@ -3,9 +3,16 @@
 **Project page: https://ghostlate.github.io/SparseHPS/**
 
 SparseHPS recovers SMPL-X pose, shape and global translation from a human point cloud of any depth camera or LiDAR
-with one set of weights, for single frames and streams alike. The page has the abstract, the method, results on the
-SLOPER4D and FreeMotion LiDAR benchmarks and a humanoid demo: the input cloud, the SparseHPS estimate and a Unitree G1
-driven by kinematic retargeting (GMR), rendered in NVIDIA Isaac Sim.
+with one set of weights, for single frames and streams alike.
+
+The page contains:
+
+- the abstract and the method, with the architecture figure;
+- comparisons with prior methods: Table 2 of the paper (SLOPER4D and FreeMotion LiDAR benchmarks) and Table 3
+  (HuMMan-Point, real Azure Kinect);
+- a humanoid demo on test sequences of HuMMan, FreeMotion, RELI11D, BEDLAM2 and AMASS. Each clip shows the input
+  cloud, the SparseHPS-T estimate and a Unitree G1 driven by kinematic retargeting (GMR); the body and the robot are
+  rendered in NVIDIA Isaac Sim. A tag on each clip gives the percentile of its error within its test set.
 
 The paper and the code will be linked from the page once they are public.
 

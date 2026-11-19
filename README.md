@@ -18,7 +18,7 @@
 </div>
 
 **One network, one set of weights:** SMPL-X pose, shape and metric global translation from the point cloud of any
-depth camera or LiDAR, for single frames and streams alike, in 17 ms per frame.
+depth camera or LiDAR, for single frames and streams alike, in 10 ms per frame.
 
 ## Highlights
 
@@ -27,7 +27,7 @@ depth camera or LiDAR, for single frames and streams alike, in 17 ms per frame.
 | **SLOPER4D** | moving LiDAR | **28.6 mm** | −22% vs. the best 32-frame method |
 | **FreeMotion** | static LiDARs | **41.8 mm** | −11% vs. the best 32-frame method |
 | **HuMMan** | real Azure Kinect | **34.7 mm** | 42 held-out subjects |
-| **Speed** | | **17 ms** | per cloud on an RTX 4070 Ti SUPER, 50.0M parameters |
+| **Speed** | | **10 ms** | per cloud on an RTX 4090, 50.0M parameters |
 
 - **Sensor-agnostic.** Point density differs by more than ten times between devices; one set of weights serves depth
   cameras and LiDARs.

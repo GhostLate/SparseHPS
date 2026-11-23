@@ -10,11 +10,11 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2611.26730-b31b1b?style=for-the-badge)](https://arxiv.org/abs/2611.26730)
 [![Model demo](https://img.shields.io/badge/Model-Demo-f2b134?style=for-the-badge)](https://ghostlate.github.io/SparseHPS/#humanoid)
 
-<a href="https://ghostlate.github.io/SparseHPS/"><img src="static/img/teaser.webp" width="100%" alt="Overview of SparseHPS: humanoid examples, the method, a comparison with prior state of the art, estimates next to the ground truth"></a>
+<a href="https://ghostlate.github.io/SparseHPS/"><img src="static/img/teaser.webp" width="100%" alt="SparseHPS demonstrations: input point cloud, estimated SMPL-X body and a Unitree G1 following the motion; then input cloud, estimate and ground truth"></a>
 
-<sub>Overview: the method, a comparison with prior state of the art, results on held-out test sequences next to the
-ground truth, and the estimated motion driving a Unitree G1 in physics simulation (SOMA Retargeter + SONIC policy,
-MuJoCo). The video with controls is on the project page.</sub>
+<sub>Test sequences of AMASS, EgoBody, HuMMan, FORM-HOI, SLOPER4D and FreeMotion. First the estimated motion driving
+a Unitree G1 in physics simulation (SOMA Retargeter + SONIC policy, MuJoCo), then the estimates next to the ground
+truth. The overview video with the method and the comparison is on the project page.</sub>
 
 </div>
 

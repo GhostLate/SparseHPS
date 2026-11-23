@@ -7,7 +7,7 @@
 [Ilya Zaychuk](https://www.linkedin.com/in/ilya-zaychuk)
 
 [![Project page](https://img.shields.io/badge/Project-Page-39d0d8?style=for-the-badge)](https://ghostlate.github.io/SparseHPS/)
-![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b?style=for-the-badge)
+[![arXiv](https://img.shields.io/badge/arXiv-2611.26730-b31b1b?style=for-the-badge)](https://arxiv.org/abs/2611.26730)
 [![Model demo](https://img.shields.io/badge/Model-Demo-f2b134?style=for-the-badge)](https://ghostlate.github.io/SparseHPS/#humanoid)
 
 <a href="https://ghostlate.github.io/SparseHPS/#humanoid"><img src="static/img/teaser.webp" width="100%" alt="Input point cloud, SparseHPS SMPL-X estimate and a Unitree G1 robot following the motion"></a>
@@ -122,7 +122,7 @@ The videos are on the [project page](https://ghostlate.github.io/SparseHPS/#huma
 @article{zaychuk2026sparsehps,
   title   = {SparseHPS: A Unified Model for Human Pose and Shape across Depth Cameras and LiDARs},
   author  = {Zaychuk, Ilya},
-  journal = {arXiv preprint},
+  journal = {arXiv preprint arXiv:2611.26730},
   year    = {2026}
 }
 ```

@@ -163,6 +163,22 @@
   </div>
 </section>
 
+<section id="examples">
+  <div class="wrap">
+    <h2>Estimates next to the ground truth</h2>
+    <p>The same SparseHPS-T model on held-out test sequences of eight datasets, from dense Azure Kinect clouds to
+      LiDAR scans of a few hundred points. Each clip shows the input cloud, the estimated SMPL-X body with the cloud
+      drawn over it, and the label of the dataset.</p>
+    <div class="gallery" id="gallery-gt"></div>
+    <p class="caption" style="margin-top:14px">Left: the input cloud (2&nbsp;cm voxels, shaded by depth). Middle: the
+      SparseHPS estimate, one per sensor frame, in the same metric frame as the cloud, so the points lie on the body
+      where pose, shape and position are right. Right: the ground truth. The joint error is the mean over the 22 body
+      joints of the clip, relative to the root joint. Walking and running figures are kept in place in the frame; the
+      SLOPER4D clip is shown from the runner's front. Objects are not shown. Hands are not estimated and are shown in
+      a fixed relaxed pose.</p>
+  </div>
+</section>
+
 <section id="humanoid">
   <div class="wrap">
     <h2>From a point cloud to a humanoid</h2>
@@ -306,6 +322,30 @@ const CLIPS = [
   ['formhoi_t5296_0', 68, 'FORM-HOI', 'stereo depth, box to the floor', 'depth'],
   ['egobody_t326_97', 59, 'EgoBody', 'Azure Kinect', 'depth'],
 ];
+// clips without the robot: file, joint error of the clip (mm, 22 body joints, root-relative), set, sensor, kind
+const GT_CLIPS = [
+  ['humman_t1730', 24, 'HuMMan', 'Azure Kinect', 'depth'],
+  ['freemotion_t941', 20, 'FreeMotion', 'static LiDAR', 'lidar'],
+  ['egobody_t769_113', 20, 'EgoBody', 'Azure Kinect', 'depth'],
+  ['sloper_t4_run', 16, 'SLOPER4D', 'moving LiDAR, running', 'lidar'],
+  ['formhoi_t6754_12', 26, 'FORM-HOI', 'stereo depth, basketball', 'depth'],
+  ['humman_t590', 17, 'HuMMan', 'Azure Kinect', 'depth'],
+  ['amass_t317', 12, 'AMASS', 'virtual Kinect', 'synthetic'],
+  ['bedlam2_t657920', 15, 'BEDLAM2', 'rendered depth', 'synthetic'],
+];
+const galleryGt = document.getElementById('gallery-gt');
+for (const [file, err, set, sensor, kind] of GT_CLIPS) {
+  const el = document.createElement('figure');
+  el.className = 'clip';
+  el.dataset.kind = kind;
+  el.style.margin = '0';
+  const tag = kind === 'synthetic' ? '<span class="tag synthetic">synthetic</span>' : '<span class="tag real">real sensor</span>';
+  el.innerHTML = `<video src="static/video/${file}_gt.mp4" muted loop playsinline controls preload="none"
+      poster="static/img/posters/${file}_gt.jpg"></video>
+    <figcaption class="meta"><span class="title">${set}</span><span class="muted">${sensor}</span>${tag}
+      <span class="tag" title="Mean error of the 22 body joints over the clip, relative to the root joint">joint error: ${err} mm</span></figcaption>`;
+  galleryGt.appendChild(el);
+}
 const gallery = document.getElementById('gallery');
 for (const [file, pct, set, sensor, kind] of CLIPS) {
   const el = document.createElement('figure');
@@ -330,7 +370,7 @@ document.querySelectorAll('.clip').forEach(c => io.observe(c));
 document.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', () => {
   document.querySelectorAll('.chip').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
   const f = btn.dataset.f;
-  document.querySelectorAll('.clip').forEach(c => { c.hidden = !(f === 'all' || c.dataset.kind === f); });
+  document.querySelectorAll('#gallery .clip').forEach(c => { c.hidden = !(f === 'all' || c.dataset.kind === f); });
 }));
 </script>
 </body>

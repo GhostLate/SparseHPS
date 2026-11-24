@@ -27,13 +27,17 @@ streams, in 10 ms per cloud on an RTX 4090.
 
 ## Highlights
 
-J-Err(L), root-relative joint error in mm under the LiveHPS protocol:
+Root-relative joint error in mm: J-Err(L) under the LiveHPS protocol on SLOPER4D, FreeMotion and HuMMan, the official
+MPJPE on RELI11D, MPJPE relative to the pelvis on EgoBody and BEDLAM2 (SparseHPS-T from single frames on these three):
 
-| Benchmark | Sensor | SparseHPS-T | Best published (32 frames) |
+| Benchmark | Sensor | SparseHPS-T | Best published |
 |---|---|---:|---:|
-| **SLOPER4D** | moving LiDAR | **28.6** | 36.5 |
-| **FreeMotion** | static LiDARs, released test file | **41.8** | 47.2 |
-| **HuMMan** | real Azure Kinect, 42 held-out subjects | **34.7** | 63.5 (Sparkle, PointHPS split) |
+| **SLOPER4D** | moving LiDAR | **28.6** | 36.5 (BMLiCap, 32 frames) |
+| **FreeMotion** | static LiDARs, released test file | **41.8** | 47.2 (BMLiCap, 32 frames) |
+| **RELI11D** | static LiDAR, official test files | **25.9** | 49.2 (LEIR, LiDAR + RGB + event) |
+| **HuMMan** | real Azure Kinect, 42 held-out subjects | **34.7** | 37.9 (MetricPose, RGB-D) |
+| **EgoBody** | real Azure Kinect, official test split | **33.4** | 46.8 (MetricPose, RGB-D) |
+| **BEDLAM2** | rendered depth, held-out subjects | **26.2** | 50.4 (MetricPose, RGB-D) |
 
 - **Sensor-agnostic.** Point density differs by more than ten times between devices; one set of weights serves depth
   cameras and LiDARs.
@@ -73,15 +77,18 @@ model of all results and demos, is trained on all ten sources and adds the memor
 
 ## Results
 
-<p align="center"><img src="static/img/figure1.png" width="60%" alt="Figure 1 of the paper: test samples from HuMMan, SLOPER4D and FreeMotion (input, ours, GT) and root-relative joint errors per sensor"></p>
+<p align="center"><img src="static/img/figure1.png" width="60%" alt="Figure 1 of the paper: test samples from HuMMan, SLOPER4D and FreeMotion (input, ours, GT) and a radar chart of root-relative joint errors on six benchmarks"></p>
 
-<sub>Figure 1 of the paper. LiveHPS, LiveHPS++ and Sparkle read 32 frames of 256 points.</sub>
+<sub>Figure 1 of the paper: one line per method, lower errors closer to the centre.</sub>
 
 <details>
-<summary><b>Comparison tables from the paper</b> (LiDAR benchmarks and HuMMan-Point)</summary>
+<summary><b>Comparison tables from the paper</b> (SLOPER4D, FreeMotion, RELI11D, HuMMan, EgoBody, BEDLAM2, FORM-HOI)</summary>
 <br>
 <p align="center"><img src="static/img/table_lidar.png" width="100%" alt="Table 2: comparison on the SLOPER4D and FreeMotion LiDAR benchmarks"></p>
+<p align="center"><img src="static/img/table_reli.png" width="60%" alt="Table 4: RELI11D under its official protocol"></p>
 <p align="center"><img src="static/img/table_humman.png" width="60%" alt="Table 3: real Azure Kinect clouds of HuMMan"></p>
+<p align="center"><img src="static/img/table_egobody.png" width="60%" alt="Table 6: EgoBody in the protocol of MetricPose"></p>
+<p align="center"><img src="static/img/table_b2.png" width="60%" alt="Table 5: BEDLAM2 and FORM-HOI in the protocols of recent methods"></p>
 <sub>Numbers in brackets refer to the paper's references.</sub>
 </details>
 

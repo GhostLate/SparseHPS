@@ -2,7 +2,7 @@
 
 # SparseHPS
 
-### A Unified Model for Human Pose and Shape across Depth Cameras and LiDARs
+### A Unified Model for Human Pose and Shape Estimation across Depth Cameras and LiDARs
 
 [Ilya Zaychuk](https://www.linkedin.com/in/ilya-zaychuk)
 
@@ -19,7 +19,7 @@ truth. The overview video with the method and the comparison is on the project p
 </div>
 
 The official PyTorch implementation of the paper **SparseHPS: A Unified Model for Human Pose and
-Shape across Depth Cameras and LiDARs**.
+Shape Estimation across Depth Cameras and LiDARs**.
 
 **A novel model for markerless capture of human pose and shape** from depth cameras and LiDARs, achieving
 state-of-the-art results on benchmarks of both sensor types with real-time performance. One set of weights recovers
@@ -127,7 +127,7 @@ The videos are on the [project page](https://ghostlate.github.io/SparseHPS/#huma
 
 ```bibtex
 @article{zaychuk2026sparsehps,
-  title   = {SparseHPS: A Unified Model for Human Pose and Shape across Depth Cameras and LiDARs},
+  title   = {SparseHPS: A Unified Model for Human Pose and Shape Estimation across Depth Cameras and LiDARs},
   author  = {Zaychuk, Ilya},
   journal = {arXiv preprint arXiv:2611.26730},
   year    = {2026}
